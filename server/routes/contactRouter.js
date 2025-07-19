@@ -11,7 +11,7 @@ router.post('/', getToken, verifyToken, contactController.addContact);
 router.delete('/', getToken, verifyToken, contactController.removeContact);
 
 // Message routes
-router.get('/messages', getToken, verifyToken, messageController.getAllMessages);
+router.get('/messages/:contactId', getToken, verifyToken, messageController.getAllMessages);
 router.post('/messages', getToken, verifyToken, messageController.createMessage);
 
 module.exports = router;    
