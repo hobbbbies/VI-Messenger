@@ -4,7 +4,7 @@ import { deleteDataViaAuth } from "../../../helpers/fetchData";
 import { useState, useContext } from 'react'
 import { ContactsContext } from "../Sidebar"
 
-export default function Contact({id, email, username }) {
+export default function Contact({id, email, username, pending }) {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const { contacts, setContacts } = useContext(ContactsContext);
@@ -35,6 +35,7 @@ export default function Contact({id, email, username }) {
         <div onClick={handleClick}>
             <div>{username}</div>
             <div>{email}</div>
+            {pending && <p>(Pending)</p>}
             <div onClick={deleteContact}>X</div>
         </div>
     )
