@@ -1,7 +1,7 @@
 import { postDataViaAuth } from "../../../helpers/fetchData"
 import { useState } from "react";
 
-export default function Dropdown({ setDropdown, contacts, setContacts }) {
+export default function Dropdown({ setDropdown, setContacts }) {
     const [formData, setFormData] = useState({ search: '' });
     const [loading, setLoading] = useState(false);
 

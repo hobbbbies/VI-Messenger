@@ -1,7 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, createContext } from "react";
 import Contact from "./Contact/Contact";
 import {fetchDataViaAuth} from "../../helpers/fetchData";
 import Dropdown from "./Dropdown/Dropdown";
+import Pending from "./Pending/Pending";
+
+export const ContactsContext = createContext();
 
 export default function Sidebar() {
     const [contacts, setContacts] = useState([]);
@@ -9,8 +12,15 @@ export default function Sidebar() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    const value = {
+        contacts,
+        setContacts,
+        loading,
+        error
+    };
+
     const handleClick = () => {
-        setDropdown(true);
+        setDropdown(!dropdown);    
     }
     
     useEffect(() => {
@@ -34,25 +44,26 @@ export default function Sidebar() {
     if (error) return <div>Error: {error}</div>;
 
     return (
-        <aside>
-            <div>
-                <h2>Contacts</h2>
-                <button onClick={handleClick}>New Contact</button>
-                {dropdown && <Dropdown setDropdown={setDropdown} contacts={contacts} setContacts={setContacts}/>} 
-            </div>
-            <ul>
-                {console.log('contacts: ', contacts)}
-                {contacts.map(contact => {
-                    return <Contact 
-                        key={contact.id} 
-                        id={contact.id} 
-                        email={contact.email} 
-                        username={contact.username}
-                        contacts={contacts}
-                        setContacts={setContacts}
-                        />
-                })}
-            </ul>
-        </aside>
+        <ContactsContext.Provider value={value} >
+            <aside>
+                <div>
+                    <h2>Contacts</h2>
+                    <button onClick={handleClick}>New Contact</button>
+                    {dropdown && <Dropdown setDropdown={setDropdown} contacts={contacts} setContacts={setContacts}/>} 
+                </div>
+                <ul>
+                    {console.log('contacts: ', contacts)}
+                    {contacts.map(contact => {
+                        return <Contact 
+                            key={contact.id} 
+                            id={contact.id} 
+                            email={contact.email} 
+                            username={contact.username}
+                            />
+                    })}
+                </ul>
+                <Pending />
+            </aside>
+        </ContactsContext.Provider>
     )
 }

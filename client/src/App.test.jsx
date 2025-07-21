@@ -3,11 +3,10 @@ import { render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import { fetchDataViaAuth, postDataViaAuth, postDataNoAuth } from './helpers/fetchData';
 import Chat from './components/Chat/Chat';
-import { useNavigate } from 'react-router-dom';
 
 vi.mock('react-router-dom', () => ({
     useParams: () => ({contactId: 123}),
-    useNavigate: vi.fn()
+    useNavigateq: vi.fn()
 }));
 
 // Mock fetch globally
