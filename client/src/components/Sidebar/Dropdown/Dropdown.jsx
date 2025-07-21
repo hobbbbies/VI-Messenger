@@ -6,7 +6,7 @@ import { ContactsContext } from "../Sidebar"
 export default function Dropdown({ setDropdown }) {
     const [formData, setFormData] = useState({ search: '' });
     const [loading, setLoading] = useState(false);
-    const { contacts, setContacts } = useContext(ContactsContext);
+    const { setContacts } = useContext(ContactsContext);
 
     const validateEmail = (email) => {
     return String(email)
@@ -30,7 +30,7 @@ export default function Dropdown({ setDropdown }) {
         validateEmail(formData.search) ? body.email = formData.search : body.username = formData.search; 
         postDataViaAuth('/contacts', body)
             .then((data) => {
-                setContacts([...contacts, data.data]);
+                setContacts(data.data);
                 setDropdown(false);
                 setFormData({ search: '' }); // Clear form
             })

@@ -17,8 +17,10 @@ export default function Contact({id, email, username, pending }) {
         setLoading(true);
         deleteDataViaAuth('/contacts', { contactId: id })
             .then(() => {
-                const newContacts = contacts.filter((user) => user.id != id);
-                setContacts([newContacts]);
+                const newMutuals = contacts.mutuals.filter((user) => user.id != id);
+                const newPending = contacts.pending.filter((user) => user.id != id);
+                
+                setContacts({...contacts, mutuals: newMutuals, pending: newPending});
             })
             .catch(error => {
                 // setMessage(`Error: ${error.message}`);

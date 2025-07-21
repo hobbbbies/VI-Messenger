@@ -28,7 +28,7 @@ export default function Sidebar() {
         
         fetchDataViaAuth('/contacts')
             .then(data => {
-                setContacts([...contacts, data.data]); 
+                setContacts(data.data); 
                 setError(null);
             })
             .catch(error => {
