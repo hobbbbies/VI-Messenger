@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { postDataViaAuth } from '../helpers/fetchData';
+import { postDataNoAuth } from '../helpers/fetchData';
 
 export default function Login() {
     const [formData, setFormData] = useState({ email: '', password: '' });
-    const [loading, setLoading] = useState(null)
-    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(false);
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -18,7 +18,7 @@ export default function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        postDataViaAuth('/auth/login', formData).then(data => {
+        postDataNoAuth('/auth/login', formData).then(data => {
             localStorage.setItem('token', data.token);
         }).catch(error => {
                 setError(error.message);
@@ -26,36 +26,10 @@ export default function Login() {
             })
             .finally(() => {
                 setLoading(false);
-            });;
-        // try {
-        //     const response = await fetch(`http://localhost:3000/api/auth/login`, {
-        //         method: "POST",
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         },
-        //         body: JSON.stringify(formData)
-
-
-        //     });
-            
-        //     const data = await response.json();
-
-        //     if (response.ok) {
-        //         // Store the JWT token
-        //         localStorage.setItem('token', data.token);
-        //         // Redirect to contacts or dashboard
-        //         // navigate('/');
-        //     } else {
-        //         setError(data.message || 'Login failed');
-        //     }
-        // } catch (error) {
-        //     console.error('Login error:', error);
-        //     setError('Network error. Please try again.');
-        // }
+            });
     };
 
     if (loading) return <div>Loading contacts...</div>;
-    if (error) return <div>Error: {error}</div>;
 
     return (
         <form onSubmit={handleSubmit}>

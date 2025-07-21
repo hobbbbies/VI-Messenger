@@ -5,10 +5,12 @@ const prisma = new PrismaClient();
 const getAllMessages = async (req, res) => {
   try {
     const { contactId } = req.params
+    parsedContactId = parseInt(contactId);
     const userId = req.user?.id
+    if (parsedContactId === userId) throw new Error("Cannot view messages with self");
     const messages = await prisma.message.findMany({
       where: {
-        contactId,
+        contactId: parsedContactId,
         userId
       },
       orderBy: {

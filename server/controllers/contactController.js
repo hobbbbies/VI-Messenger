@@ -4,19 +4,42 @@ const prisma = new PrismaClient();
 // Add a contact (make user1 a contact of user2)
 const addContact = async (req, res) => {
   try {
-    const { contactId } = req.body; // or req.params
+    const { email, username } = req.body; // or req.params
     const userId = req.user?.id;
-
-    if (!contactId || !userId) {
-      return res.status(400).json({
+    let contact;
+    
+    if (email) {
+      contact = await prisma.user.findUnique({
+        where: {
+          email
+        }
+      })
+    } else if (username) {
+      contact = await prisma.user.findUnique({
+        where: {
+          username
+        }
+      })
+    } else {
+        return res.status(400).json({
         success: false,
-        message: "Contact ID is required"
+        message: "email or username is required"
       });
     }
+    const contactId = contact.id;
 
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        message: "User authentication failed"
+      });
+    }
+    
     // Check if contact exists
-    const contactUser = await prisma.user.findUnique({
-      where: { id: parseInt(contactId) }
+    const contactUser = await prisma.user.findFirst({
+    where: {
+        id: contactId
+    }
     });
 
     if (!contactUser) {
@@ -31,7 +54,7 @@ const addContact = async (req, res) => {
       where: { id: userId },
       data: {
         contacts: {
-          connect: { id: parseInt(contactId) }
+          connect: { id: contactId }
         }
       },
       include: {
