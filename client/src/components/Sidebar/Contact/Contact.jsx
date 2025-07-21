@@ -18,7 +18,7 @@ export default function Contact({id, email, username, pending }) {
         deleteDataViaAuth('/contacts', { contactId: id })
             .then(() => {
                 const newContacts = contacts.filter((user) => user.id != id);
-                setContacts(newContacts);
+                setContacts([newContacts]);
             })
             .catch(error => {
                 // setMessage(`Error: ${error.message}`);

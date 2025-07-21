@@ -28,7 +28,7 @@ export default function Sidebar() {
         
         fetchDataViaAuth('/contacts')
             .then(data => {
-                setContacts(data.data); 
+                setContacts([...contacts, data.data]); 
                 setError(null);
             })
             .catch(error => {
@@ -49,7 +49,7 @@ export default function Sidebar() {
                 <div>
                     <h2>Contacts</h2>
                     <button onClick={handleClick}>New Contact</button>
-                    {dropdown && <Dropdown setDropdown={setDropdown} contacts={contacts} setContacts={setContacts}/>} 
+                    {dropdown && <Dropdown setDropdown={setDropdown}/>} 
                 </div>
                 <ul>
                     {console.log('contacts: ', contacts)}

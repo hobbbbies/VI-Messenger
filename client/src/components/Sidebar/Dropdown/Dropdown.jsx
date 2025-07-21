@@ -1,9 +1,12 @@
 import { postDataViaAuth } from "../../../helpers/fetchData"
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { ContactsContext } from "../Sidebar"
 
-export default function Dropdown({ setDropdown, setContacts }) {
+
+export default function Dropdown({ setDropdown }) {
     const [formData, setFormData] = useState({ search: '' });
     const [loading, setLoading] = useState(false);
+    const { contacts, setContacts } = useContext(ContactsContext);
 
     const validateEmail = (email) => {
     return String(email)
@@ -27,8 +30,7 @@ export default function Dropdown({ setDropdown, setContacts }) {
         validateEmail(formData.search) ? body.email = formData.search : body.username = formData.search; 
         postDataViaAuth('/contacts', body)
             .then((data) => {
-                // setMessage('Contact added successfully!');
-                setContacts(data.data)
+                setContacts([...contacts, data.data]);
                 setDropdown(false);
                 setFormData({ search: '' }); // Clear form
             })

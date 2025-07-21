@@ -4,11 +4,11 @@ import { useContext } from "react";
 import { ContactsContext } from "../Sidebar"
 
 export default function PendingContact({ contactId, username, email, pendingContacts, setPendingContacts }) {
-    const { setContacts } = useContext(ContactsContext);
+    const { contacts, setContacts } = useContext(ContactsContext);
     const addContact = () => {
         postDataViaAuth('/contacts', { contactId })
             .then((data) => {
-                setContacts(data.data);
+                setContacts([...contacts, data.data]);
                 const newPending = pendingContacts.filter((contact) => {
                     return contact.id !== contactId;
                 });
