@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { postDataViaAuth } from '../../../helpers/fetchData';
 
 export default function Textbar({ conversation, setConversation, contactId }) {
     const [formData, setFormData] = useState({ content: '' });
+    const inputRef = useRef(null);
 
     const handleChange = (e) => {
         setFormData({
@@ -22,12 +23,14 @@ export default function Textbar({ conversation, setConversation, contactId }) {
             .catch(error => {
                 // setMessage(`Error: ${error.message}`);
                 console.error('Error sending message:', error);
+            }).finally(() => {
+                inputRef.current.value = "";
             })
     }
 
     return (
         <form onSubmit={submitForm}>
-            <input type="text" onChange={handleChange} name="content"></input>
+            <input type="text" onChange={handleChange} name="content" ref={inputRef}></input>
             <button>Send</button>
         </form>
     )

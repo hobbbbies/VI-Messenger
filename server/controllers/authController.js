@@ -3,9 +3,6 @@ const prisma = new PrismaClient();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-// "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJTdGVmYW5WaXRhbm92IiwiaWF0IjoxNzUyOTM0MDA5LCJleHAiOjE3NTI5Mzc2MDl9.hdpG51fEIye9VUiB43giJ-hxiwAtkNVK21wDh_W984o"
-// "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJHZW9yZ2VMdWNhcyIsImlhdCI6MTc1MjkzNDA5OSwiZXhwIjoxNzUyOTM3Njk5fQ.dDT1Yyh0ybdoqdtxkN7GMYr0zmgl6R-goE2liqK7k08"
-
 // @desc    Register a new user
 // @route   POST /api/auth/register
 const registerUser = async (req, res) => {
@@ -45,7 +42,6 @@ const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
     const user = await prisma.user.findUnique({ where: { email: email } });
-
     if (user && (await bcrypt.compare(password, user.password))) {
       // Passwords match, create token
       const token =   jwt.sign(
@@ -68,6 +64,8 @@ const loginUser = async (req, res) => {
   }
 };
 
+// @desc    Delete user from database
+// @route   DELETE /api/auth/deleteUser
 deleteUser = async (req, res) => {
   try {
     const userid = req.user.id;
@@ -78,6 +76,8 @@ deleteUser = async (req, res) => {
   }
 }
 
+// @desc    Gets user from database after login
+// @route   GET /api/auth/getUser
 getUser = async (req, res) => {
   try {
     const user = req.user;

@@ -1,21 +1,34 @@
 const { PrismaClient } = require("../generated/prisma");
 const prisma = new PrismaClient();
 
-// Get all posts
+// @desc    Gets all Messages of certain contact relationship
+// @route   GET /api/contacts/:username(of contact)/:contactId
 const getAllMessages = async (req, res) => {
   try {
     const { contactId } = req.params
     parsedContactId = parseInt(contactId);
-    const userId = req.user?.id
+    const userId = parseInt(req.user?.id);
     if (parsedContactId === userId) throw new Error("Cannot view messages with self");
     const messages = await prisma.message.findMany({
       where: {
-        contactId: parsedContactId,
-        userId
+        OR: [
+          {
+            contactId: parsedContactId,
+            userId
+          },
+          {
+            contactId: userId,
+            userId: parsedContactId
+          }
+        ],
+      },
+      include: {
+        user: true,
       },
       orderBy: {
-        createdAt: "desc",
+        createdAt: "asc",
       },
+
     });
 
     res.status(200).json({
@@ -32,6 +45,8 @@ const getAllMessages = async (req, res) => {
   }
 };
 
+// @desc    Creates new Message for certain contact relationship
+// @route   POST /api/contacts/:contactId
 const createMessage = async (req, res) => {
   try {
     const { content, contactId } = req.body;
@@ -59,6 +74,9 @@ const createMessage = async (req, res) => {
         userId,
         contactId: parseInt(contactId),
       },
+      include: {
+        user: true
+      },
     });
 
     res.status(200).json({
@@ -75,6 +93,8 @@ const createMessage = async (req, res) => {
   }
 };
 
+// @desc    Edits a Message of certain contact relationship
+// @route   PUT /api/contacts/contactId
 const updateMessage = async (req, res) => {
   try {
     const { content } = req.body;
@@ -118,6 +138,8 @@ const updateMessage = async (req, res) => {
   }
 };
 
+// @desc    deletes a Message of certain contact relationship
+// @route   DELETE /api/contacts/:contactId
 const deleteMessage = async (req, res) => {
   try {
     const messageId = parseInt(req.params.messageId);
