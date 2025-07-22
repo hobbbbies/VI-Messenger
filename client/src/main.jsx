@@ -5,6 +5,7 @@ import Login from './components/Login.jsx'
 import Chat from './components/Chat/Chat.jsx'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Header from './components/Header/Header.jsx';
 
 const router = createBrowserRouter([
   {
@@ -12,8 +13,11 @@ const router = createBrowserRouter([
     element: <Login />
   },
   {
-    path: '/contacts/:contactId',
-    element: <Chat />
+    path: '/contacts',
+    element: <Header />,
+    children: [
+      {path: ':username/:contactId', element: <Chat />}
+    ]
   }
 ])
 

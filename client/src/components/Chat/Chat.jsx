@@ -8,15 +8,12 @@ import Textbar from './Textbar/Textbar';
 
 export default function Chat() {
     const [conversation, setConversation] = useState([]);
-    const [contacts, setContacts] = useState({});
-    const [currentContact, setCurrentContact] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const { contactId } = useParams();
+    const { username, contactId } = useParams();
 
     useEffect(() => {
         setLoading(true);
-
         fetchDataViaAuth(`/contacts/${contactId}/messages`)
             .then(data => {
                 setConversation(data.data);
@@ -39,7 +36,7 @@ export default function Chat() {
         <div>
             <Sidebar />
             <div>
-                <h2>Chat with Contact {contactId}</h2>
+                <h2>Chat with {username}</h2>
                 <div className="messages">
                     {conversation.map((message) => {
                         return (

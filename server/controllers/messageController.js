@@ -37,6 +37,10 @@ const createMessage = async (req, res) => {
     const { content, contactId } = req.body;
     const userId = parseInt(req.user?.id);
 
+    console.log('userId: ', userId);
+    console.log("content", content);
+    console.log('contactId: ', contactId);
+
     if (!content || !contactId) {
       return res
         .status(400)
@@ -53,7 +57,7 @@ const createMessage = async (req, res) => {
       data: {
         content,
         userId,
-        contactId,
+        contactId: parseInt(contactId),
       },
     });
 
@@ -62,6 +66,7 @@ const createMessage = async (req, res) => {
       data: message,
     });
   } catch (error) {
+    console.error(error);
     res.status(500).json({
       success: false,
       message: "Error creating message",

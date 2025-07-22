@@ -11,6 +11,7 @@ const getToken = (req, res, next) => {
         }
     } catch(error) {
         res.status(400).json({ message: 'header missing' });
+        return res.redirect('/login')
     }
 }
 

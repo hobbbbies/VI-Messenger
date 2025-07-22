@@ -78,8 +78,19 @@ deleteUser = async (req, res) => {
   }
 }
 
+getUser = async (req, res) => {
+  try {
+    const user = req.user;
+    if (!user) return res.status(400).json({ success: false, message: "User Authentication failed" });
+    res.status(200).json({ success: true, data: user });
+  } catch(error) {
+      res.status(500).json({ success: false, message: 'Server error during user fetch.', error: error.message });
+  }
+}
+
 module.exports = {
   registerUser,
   loginUser,
-  deleteUser
+  deleteUser,
+  getUser
 };
