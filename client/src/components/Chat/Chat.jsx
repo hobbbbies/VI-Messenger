@@ -4,16 +4,19 @@ import { useParams } from 'react-router-dom';
 import { fetchDataViaAuth } from '../../helpers/fetchData';
 import Message from './Message/Message';
 import Sidebar from '../Sidebar/Sidebar';
+import Textbar from './Textbar/Textbar';
 
 export default function Chat() {
     const [conversation, setConversation] = useState([]);
+    const [contacts, setContacts] = useState({});
+    const [currentContact, setCurrentContact] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const { contactId } = useParams();
 
     useEffect(() => {
         setLoading(true);
-        
+
         fetchDataViaAuth(`/contacts/${contactId}/messages`)
             .then(data => {
                 setConversation(data.data);
@@ -49,6 +52,7 @@ export default function Chat() {
                         )
                     })}
                 </div>
+                <Textbar conversation={conversation} setConversation={setConversation} contactId={contactId}/>
             </div>
         </div>
     )

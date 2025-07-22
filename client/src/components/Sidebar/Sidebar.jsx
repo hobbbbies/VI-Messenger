@@ -6,8 +6,7 @@ import Pending from "./Pending/Pending";
 
 export const ContactsContext = createContext();
 
-export default function Sidebar() {
-    const [contacts, setContacts] = useState({});
+export default function Sidebar(contacts, setContacts) {
     const [dropdown, setDropdown] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -28,7 +27,7 @@ export default function Sidebar() {
         
         fetchDataViaAuth('/contacts')
             .then(data => {
-                setContacts(data.data); 
+                setContacts(data.data]); 
                 setError(null);
             })
             .catch(error => {
