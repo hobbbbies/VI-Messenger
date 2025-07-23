@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useOutletContext } from 'react-router-dom';
 import { fetchDataViaAuth } from '../../helpers/fetchData';
 import Message from './Message/Message';
 import Sidebar from '../Sidebar/Sidebar';
 import Textbar from './Textbar/Textbar';
 
 export default function Chat() {
+    const user = useOutletContext();
     const [conversation, setConversation] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -51,19 +52,18 @@ export default function Chat() {
             <div>
                 <h2>Chat with {username}</h2>
                 <div className="messages">
-                    {conversation.map((message) => {
-                        return (
-                            <Message
-                                key={message.id}
-                                messageId={message.id}
-                                username={message.user?.username}
-                                content={message.content}
-                                createdAt={message.createdAt}
-                                conversation={conversation}
-                                setConversation={setConversation}
-                            />
-                        )
-                    })}
+                {conversation.map((message) => (
+                    <div key={message.id} className={message.user?.id === user.id ? "right" : "left"}>
+                        <Message
+                            messageId={message.id}
+                            username={message.user?.username}
+                            content={message.content}
+                            createdAt={message.createdAt}
+                            conversation={conversation}
+                            setConversation={setConversation}
+                        />
+                    </div>
+                ))}
                 </div>
                 <Textbar conversation={conversation} setConversation={setConversation} contactId={contactId}/>
             </div>

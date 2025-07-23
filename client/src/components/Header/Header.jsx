@@ -28,7 +28,7 @@ export default function Header() {
         <header>
             <div>Welcome, {user?.username}</div>
             <a href="/login">Login</a>
-            <Outlet />
+            <Outlet context={user}/>
         </header>
     )
 }
