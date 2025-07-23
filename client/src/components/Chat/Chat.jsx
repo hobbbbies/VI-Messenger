@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
-import { useParams, useOutletContext } from 'react-router-dom';
+import { useParams, useOutletContext, useSearchParams } from 'react-router-dom';
 import { fetchDataViaAuth } from '../../helpers/fetchData';
 import Message from './Message/Message';
-import Sidebar from '../Sidebar/Sidebar';
 import Textbar from './Textbar/Textbar';
+import Sidebar from '../Sidebar/Sidebar';
 
 export default function Chat() {
     const user = useOutletContext();
@@ -12,6 +12,11 @@ export default function Chat() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const { username, contactId } = useParams();
+    const [searchParams, setSearchParams] = useSearchParams(); // React router dom way to access search queries
+    const pendingParam = searchParams.get('pending');
+    const [editing, setEditing] = useState(false);
+    const [presetText, setPresetText] = useState("");
+    // Might have to put user inside context
 
     useEffect(() => {
         if (contactId) {
@@ -49,8 +54,9 @@ export default function Chat() {
     return (
         <div>
             <Sidebar />
-            <div>
+            <div className={editing ? "chatContainer editingContainer" : "chatContainer"}>
                 <h2>Chat with {username}</h2>
+                <h3>{(pendingParam === true || pendingParam === "true") && <span>This user hasn't added you back yet</span>}</h3>
                 <div className="messages">
                 {conversation.map((message) => (
                     <div key={message.id} className={message.user?.id === user.id ? "right" : "left"}>
@@ -61,11 +67,14 @@ export default function Chat() {
                             createdAt={message.createdAt}
                             conversation={conversation}
                             setConversation={setConversation}
+                            setPresetText={setPresetText}
+                            editing={editing}
+                            setEditing={setEditing}
                         />
                     </div>
                 ))}
                 </div>
-                <Textbar conversation={conversation} setConversation={setConversation} contactId={contactId}/>
+                <Textbar conversation={conversation} setConversation={setConversation} contactId={contactId} presetText={presetText}/>
             </div>
         </div>
     )

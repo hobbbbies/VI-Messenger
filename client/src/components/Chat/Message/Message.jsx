@@ -1,7 +1,10 @@
 import PropTypes from 'prop-types';
 import { deleteDataViaAuth } from '../../../helpers/fetchData';
+import { useRef } from 'react';
 
-export default function Message({ messageId, username, content, createdAt, conversation, setConversation }) {
+export default function Message({ messageId, username, content, createdAt, conversation, setConversation, setPresetText, editing, setEditing }) {
+    const dateRef = useRef(new Date(createdAt));
+
     const deleteMessage = () => {
         deleteDataViaAuth('/contacts/messages', { messageId })
             .then(data => {
@@ -13,12 +16,25 @@ export default function Message({ messageId, username, content, createdAt, conve
                 console.error('Error deleting message: ', error);
             })
     }
-    
+
+    const editMessage = () => {
+        setEditing(messageId);
+        setPresetText(content);
+    }
+
+    const stopEditing = () => {
+        setEditing(false);
+        setPresetText('');
+    }
+
     return (
-        <div className="message">
+        // Nested if: If editing ---> if messageId === editing id ---> set className
+        <div className={editing ? (messageId === editing ? "message editing" : "message background") : "message" }>
             <strong>{username}:</strong> {content}
-            <small>{new Date(createdAt).toLocaleTimeString()}</small>
-            <div>Edit</div>
+            <small> </small>
+            <small>{dateRef.current.getMonth()}/{dateRef.current.getDate()} {dateRef.current.toLocaleTimeString()}</small>
+            {(messageId === editing) && <div onClick={stopEditing}>Stop Editing</div>}
+            <div onClick={editMessage}>Edit</div>
             <div onClick={deleteMessage}>Delete</div>
         </div>
     );

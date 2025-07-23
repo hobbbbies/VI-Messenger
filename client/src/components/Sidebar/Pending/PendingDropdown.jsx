@@ -3,7 +3,7 @@ import PendingContact from "./PendingContact"
 
 export default function PendingDropdown({pendingContacts, setPendingContacts}) {
     return (
-        <ul>
+        <ul >
             {pendingContacts.map(contact => {
                 // Create way to delete pending contact
                 return <PendingContact 

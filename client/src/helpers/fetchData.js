@@ -77,3 +77,23 @@ export function deleteDataViaAuth(endpoint, body) {
         throw error;
     });
 }
+
+export function updateDataViaAuth(endpoint, body) {
+    return fetch(`${import.meta.env.VITE_SERVER_URL}${endpoint}`, {
+        method: 'PUT', 
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}` 
+        },
+        body: JSON.stringify(body)  
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+        return response.json(); 
+    })
+    .catch(error => { 
+        throw error;
+    }); 
+}

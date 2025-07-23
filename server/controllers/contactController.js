@@ -97,11 +97,16 @@ const addContact = async (req, res) => {
         error: "User update failed"
       });
     }
+    // Remamants of refactoring that I'm saving for 'later'
+    // const newUser = updatedUser.contacts.map(() => {
+    //   console.log('contacts: ', updatedUser.contacts);
+    //   return updatedUser.contacts.some(contact => contact.contacts.id === userId);
+    // });
 
+    // console.log('new User: ', newUser); 
     const mutuals = await findMutuals(userId);
     const pending = await findPending(userId);
-    console.log("mutuals: ", mutuals);
-    console.log("pending: ", pending);
+    console.log('pending: ', pending);
 
     res.status(200).json({
       success: true,

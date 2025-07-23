@@ -10,7 +10,7 @@ export default function Contact({id, email, username, pending }) {
     const { contacts, setContacts } = useContext(ContactsContext);
 
     const handleClick =  () => {
-        navigate(`/contacts/${username}/${id}`)
+        navigate(`/contacts/${username}/${id}?pending=${pending}`)
     }
 
     const deleteContact = () => {

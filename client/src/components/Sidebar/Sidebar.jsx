@@ -58,6 +58,7 @@ export default function Sidebar() {
                             id={contact.id} 
                             email={contact.email} 
                             username={contact.username}
+                            pending={false}
                             />
                     })}
                     {contacts.pending.map(contact => {
@@ -66,7 +67,7 @@ export default function Sidebar() {
                             id={contact.id} 
                             email={contact.email} 
                             username={contact.username}
-                            pending="true"
+                            pending={true}
                             />
                     })}
                 </ul>
