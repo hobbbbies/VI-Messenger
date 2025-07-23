@@ -40,7 +40,7 @@ const getAllMessages = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Error fetching messages",
-      error: error.message,
+      error: error.message
     });
   }
 };
@@ -98,11 +98,14 @@ const createMessage = async (req, res) => {
 const updateMessage = async (req, res) => {
   try {
     const { content } = req.body;
-    const messageId = parseInt(req.params.messageId);
+    const messageId = parseInt(req.body.messageId);
     const userId = parseInt(req.user.id);
     const message = await prisma.message.findUnique({
       where: { id: messageId },
     });
+
+    console.log('message: ', message);
+    console.log('content: ', content);
 
     if (!message || !content) {
       return res
@@ -123,7 +126,9 @@ const updateMessage = async (req, res) => {
       },
       data: {
         content: content,
+        edited: true
       },
+      include: { user: true },
     });
     res.status(200).json({
       success: true,
@@ -134,6 +139,7 @@ const updateMessage = async (req, res) => {
       success: false,
       message: "Error updating message",
       error: error.message,
+      data: update
     });
   }
 };

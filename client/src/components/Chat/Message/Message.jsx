@@ -2,14 +2,14 @@ import PropTypes from 'prop-types';
 import { sendRequestViaAuth } from '../../../helpers/fetchData';
 import { useRef } from 'react';
 
-export default function Message({ messageId, username, content, createdAt, conversation, setConversation, setPresetText, editing, setEditing }) {
-    const dateRef = useRef(new Date(createdAt));
+export default function Message({ message, conversation, setConversation, setText, editId, setEditId }) {
+    const dateRef = useRef(new Date(message.createdAt));
 
     const deleteMessage = () => {
-        sendRequestViaAuth('/contacts/messages', 'DELETE', { messageId })
+        sendRequestViaAuth('/contacts/messages', 'DELETE', { messageId: message.id })
             .then(data => {
-                const newConversation = conversation.filter((message) => {
-                    return message.id !== data.data.id;
+                const newConversation = conversation.filter((convoMessage) => {
+                    return convoMessage.id !== data.data.id;
                 })
                 setConversation(newConversation);
             }).catch(error => {
@@ -18,22 +18,24 @@ export default function Message({ messageId, username, content, createdAt, conve
     }
 
     const editMessage = () => {
-        setEditing(messageId);
-        setPresetText(content);
+        setEditId(message.id);
+        setText(message.content);
     }
 
     const stopEditing = () => {
-        setEditing(false);
-        setPresetText('');
+        setEditId(null);
+        setText('');
     }
 
+    console.log('message: ', message)
     return (
         // Nested if: If editing ---> if messageId === editing id ---> set className
-        <div className={editing ? (messageId === editing ? "message editing" : "message background") : "message" }>
-            <strong>{username}:</strong> {content}
+        <div className={editId ? (message.id === editId ? "message editing" : "message background") : "message" }>
+            <strong>{message.user.username}:</strong> {message.content}
             <small> </small>
             <small>{dateRef.current.getMonth()}/{dateRef.current.getDate()} {dateRef.current.toLocaleTimeString()}</small>
-            {(messageId === editing) && <div onClick={stopEditing}>Stop Editing</div>}
+            <small>{message.edited && <>(<i>edited</i>)</>}</small>
+            {(message.id === editId) && <div onClick={stopEditing}>Stop Editing</div>}
             <div onClick={editMessage}>Edit</div>
             <div onClick={deleteMessage}>Delete</div>
         </div>
@@ -41,7 +43,5 @@ export default function Message({ messageId, username, content, createdAt, conve
 }
 
 Message.propTypes = {
-    username: PropTypes.string.isRequired,
-    content: PropTypes.string.isRequired,
-    createdAt: PropTypes.string.isRequired
+    message: PropTypes.object.isRequired
 }

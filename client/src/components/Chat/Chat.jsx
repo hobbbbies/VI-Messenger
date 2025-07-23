@@ -14,8 +14,8 @@ export default function Chat() {
     const { username, contactId } = useParams();
     const [searchParams, setSearchParams] = useSearchParams(); // React router dom way to access search queries
     const pendingParam = searchParams.get('pending');
-    const [editing, setEditing] = useState(false);
-    const [presetText, setPresetText] = useState("");
+    const [editId, setEditId] = useState(false);
+    const [text, setText] = useState("");
     // Might have to put user inside context
 
     useEffect(() => {
@@ -54,27 +54,32 @@ export default function Chat() {
     return (
         <div>
             <Sidebar />
-            <div className={editing ? "chatContainer editingContainer" : "chatContainer"}>
+            <div className={editId ? "chatContainer editingContainer" : "chatContainer"}>
                 <h2>Chat with {username}</h2>
                 <h3>{(pendingParam === true || pendingParam === "true") && <span>This user hasn't added you back yet</span>}</h3>
                 <div className="messages">
                 {conversation.map((message) => (
                     <div key={message.id} className={message.user?.id === user.id ? "right" : "left"}>
                         <Message
-                            messageId={message.id}
-                            username={message.user?.username}
-                            content={message.content}
-                            createdAt={message.createdAt}
+                            message={message}
                             conversation={conversation}
                             setConversation={setConversation}
-                            setPresetText={setPresetText}
-                            editing={editing}
-                            setEditing={setEditing}
+                            setText={setText}
+                            editId={editId}
+                            setEditId={setEditId}
                         />
                     </div>
                 ))}
                 </div>
-                <Textbar conversation={conversation} setConversation={setConversation} contactId={contactId} presetText={presetText}/>
+                <Textbar 
+                    conversation={conversation} 
+                    setConversation={setConversation} 
+                    contactId={contactId} 
+                    text={text} 
+                    setText={setText}
+                    editId={editId}
+                    setEditId={setEditId}
+                />
             </div>
         </div>
     )

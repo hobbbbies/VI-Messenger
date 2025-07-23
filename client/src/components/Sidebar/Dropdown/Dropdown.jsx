@@ -17,6 +17,7 @@ export default function Dropdown({ setDropdown }) {
     };
 
     const handleChange = (e) => {
+        // Can and probabally should be using a state instead - like in Textbar.jsx
         setFormData({
             ...formData,
             [e.target.name]: e.target.value
