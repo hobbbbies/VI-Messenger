@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import PendingDropdown from './PendingDropdown'
-import { fetchDataViaAuth } from "../../../helpers/fetchData";
+import { sendRequestViaAuth } from "../../../helpers/fetchData";
 
 export default function Pending() {
     const [pendingContacts, setPendingContacts] = useState([]);
@@ -11,7 +11,7 @@ export default function Pending() {
     };
 
     useEffect(() => {
-        fetchDataViaAuth('/contacts/pending')
+        sendRequestViaAuth('/contacts/pending')
             .then(data => {
                 setPendingContacts(data.data);
             })

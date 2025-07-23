@@ -1,6 +1,6 @@
 import { useEffect, useState, createContext } from "react";
 import Contact from "./Contact/Contact";
-import {fetchDataViaAuth} from "../../helpers/fetchData";
+import {sendRequestViaAuth} from "../../helpers/fetchData";
 import Dropdown from "./Dropdown/Dropdown";
 import Pending from "./Pending/Pending";
 
@@ -26,7 +26,7 @@ export default function Sidebar() {
     useEffect(() => {
         setLoading(true);
         
-        fetchDataViaAuth('/contacts')
+        sendRequestViaAuth('/contacts')
             .then(data => {
                 setContacts(data.data); 
                 setError(null);

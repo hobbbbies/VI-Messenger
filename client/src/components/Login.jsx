@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { postDataNoAuth } from '../helpers/fetchData';
+import { sendRequestNoAuth } from '../helpers/fetchData';
 
 export default function Login() {
     const [formData, setFormData] = useState({ email: '', password: '' });
@@ -18,9 +18,10 @@ export default function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        postDataNoAuth('/auth/login', formData).then(data => {
+        sendRequestNoAuth('/auth/login', 'POST', formData)
+            .then(data => {
             localStorage.setItem('token', data.token);
-        }).catch(error => {
+            }).catch(error => {
                 setError(error.message);
                 console.error('Failed to submit data:', error);
             })

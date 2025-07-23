@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { fetchDataViaAuth } from "../../helpers/fetchData";
+import { sendRequestViaAuth } from "../../helpers/fetchData";
 import { useNavigate, useLocation, Outlet } from "react-router-dom";
 
 export default function Header() {
@@ -10,7 +10,7 @@ export default function Header() {
 
     useEffect(() => {
         setLoading(true);
-        fetchDataViaAuth('/auth/user')
+        sendRequestViaAuth('/auth/user')
             .then(data => {
                 setUser(data.data);
             }).catch(error => {

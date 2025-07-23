@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
-import { deleteDataViaAuth } from '../../../helpers/fetchData';
+import { sendRequestViaAuth } from '../../../helpers/fetchData';
 import { useRef } from 'react';
 
 export default function Message({ messageId, username, content, createdAt, conversation, setConversation, setPresetText, editing, setEditing }) {
     const dateRef = useRef(new Date(createdAt));
 
     const deleteMessage = () => {
-        deleteDataViaAuth('/contacts/messages', { messageId })
+        sendRequestViaAuth('/contacts/messages', 'DELETE', { messageId })
             .then(data => {
                 const newConversation = conversation.filter((message) => {
                     return message.id !== data.data.id;

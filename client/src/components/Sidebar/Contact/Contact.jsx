@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import PropTypes from "prop-types"
-import { deleteDataViaAuth } from "../../../helpers/fetchData";
+import { sendRequestViaAuth } from "../../../helpers/fetchData";
 import { useState, useContext } from 'react'
 import { ContactsContext } from "../Sidebar"
 
@@ -15,7 +15,7 @@ export default function Contact({id, email, username, pending }) {
 
     const deleteContact = () => {
         setLoading(true);
-        deleteDataViaAuth('/contacts', { contactId: id })
+        sendRequestViaAuth('/contacts', 'DELETE', { contactId: id })
             .then(() => {
                 const newMutuals = contacts.mutuals.filter((user) => user.id != id);
                 const newPending = contacts.pending.filter((user) => user.id != id);

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { useParams, useOutletContext, useSearchParams } from 'react-router-dom';
-import { fetchDataViaAuth } from '../../helpers/fetchData';
+import { sendRequestViaAuth } from '../../helpers/fetchData';
 import Message from './Message/Message';
 import Textbar from './Textbar/Textbar';
 import Sidebar from '../Sidebar/Sidebar';
@@ -21,7 +21,7 @@ export default function Chat() {
     useEffect(() => {
         if (contactId) {
             setLoading(true);
-            fetchDataViaAuth(`/contacts/${contactId}/messages`)
+            sendRequestViaAuth(`/contacts/${contactId}/messages`)
                 .then(data => {
                     setConversation(data.data);
                     setError(null);

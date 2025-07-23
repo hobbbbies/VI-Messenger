@@ -1,4 +1,4 @@
-import { deleteDataViaAuth, postDataViaAuth } from "../../../helpers/fetchData"
+import { sendRequestViaAuth } from "../../../helpers/fetchData"
 import PropTypes from "prop-types";
 import { useContext } from "react";
 import { ContactsContext } from "../Sidebar"
@@ -6,7 +6,7 @@ import { ContactsContext } from "../Sidebar"
 export default function PendingContact({ contactId, username, email, pendingContacts, setPendingContacts }) {
     const { setContacts } = useContext(ContactsContext);
     const addContact = () => {
-        postDataViaAuth('/contacts', { contactId })
+        sendRequestViaAuth('/contacts', 'POST', { contactId })
             .then((data) => {
                 setContacts(data.data);
                 const newPending = pendingContacts.filter((contact) => {
@@ -20,7 +20,7 @@ export default function PendingContact({ contactId, username, email, pendingCont
     }
 
     const denyContact = () => {
-        deleteDataViaAuth('/contacts/pending', {contactId})
+        sendRequestViaAuth('/contacts/pending', 'DELETE', {contactId})
             .then(() => {
                 const newPending = pendingContacts.filter((contact) => {
                     return contact.id !== contactId;

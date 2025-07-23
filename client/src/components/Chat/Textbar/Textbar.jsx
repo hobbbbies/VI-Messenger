@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { postDataViaAuth } from '../../../helpers/fetchData';
+import { sendRequestViaAuth } from '../../../helpers/fetchData';
 
 export default function Textbar({ conversation, setConversation, contactId, presetText }) {
     const [formData, setFormData] = useState({ content: '' });
@@ -15,7 +15,7 @@ export default function Textbar({ conversation, setConversation, contactId, pres
     const submitForm = async (e) => {
         e.preventDefault();
         if (!presetText.length) {
-            postDataViaAuth('/contacts/messages', { content: formData.content, contactId: contactId})
+            sendRequestViaAuth('/contacts/messages', 'POST', { content: formData.content, contactId: contactId})
                 .then((data) => {
                     setConversation([...conversation, data.data])
                     setFormData({ content: '' }); // Clear form
@@ -27,7 +27,7 @@ export default function Textbar({ conversation, setConversation, contactId, pres
                     inputRef.current.value = "";
                 })    
         } else { // Editing mode
-            
+
         }
     }
 

@@ -1,99 +1,43 @@
-export function fetchDataViaAuth(endpoint) {
-    return fetch(`${import.meta.env.VITE_SERVER_URL}${endpoint}`, {
-        method: 'GET', 
+export function sendRequestViaAuth(endpoint, method = 'GET', body = null) {
+    const options = {
+        method,
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}` 
-        } 
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`Invalid request: ${response.status}`); 
-        }
-        return response.json(); 
-    })
-    .catch(error => { 
-        console.error('Error:', error);
-        throw error; 
-    });
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        // Only add body to the options if it's not null
+        ...(body && { body: JSON.stringify(body) })
+    };
+    
+    return fetch(`${import.meta.env.VITE_SERVER_URL}${endpoint}`, options)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+            return response.json();
+        })
+        .catch(error => {
+            throw error;
+        });
 }
 
-export function postDataViaAuth(endpoint, body = {}) {
+// For requests that require no authentication 
+export function sendRequestNoAuth(endpoint, method, body = {}) {
     return fetch(`${import.meta.env.VITE_SERVER_URL}${endpoint}`, {
-        method: 'POST', 
+        method,
         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}` 
+            'Content-Type': 'application/json'
         },
-        body: JSON.stringify(body)  
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status}`); 
-        }
-        return response.json(); 
-    })
-    .catch(error => { 
-        throw error;
-    });
-}
-
-export function postDataNoAuth(endpoint, body = {}) {
-    return fetch(`${import.meta.env.VITE_SERVER_URL}${endpoint}`, {
-        method: 'POST', 
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body)  
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`Invalid request: ${response.status}`); 
-        }
-        return response.json(); 
-    })
-    .catch(error => { 
-        console.error('Error:', error);
-        throw error; 
-    });
-}
-
-export function deleteDataViaAuth(endpoint, body) {
-    return fetch(`${import.meta.env.VITE_SERVER_URL}${endpoint}`, {
-        method: 'DELETE', 
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}` 
-        },
-        body: JSON.stringify(body)  
+        body: JSON.stringify(body)
     })
     .then(response => {
         if (!response.ok) {
             throw new Error(`HTTP ${response.status}`);
         }
-        return response.json(); 
+        return response.json();
     })
     .catch(error => { 
+        console.error('Error:', error);
         throw error;
     });
-}
-
-export function updateDataViaAuth(endpoint, body) {
-    return fetch(`${import.meta.env.VITE_SERVER_URL}${endpoint}`, {
-        method: 'PUT', 
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}` 
-        },
-        body: JSON.stringify(body)  
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status}`);
-        }
-        return response.json(); 
-    })
-    .catch(error => { 
-        throw error;
-    }); 
 }

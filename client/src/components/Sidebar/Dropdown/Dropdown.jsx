@@ -1,4 +1,4 @@
-import { postDataViaAuth } from "../../../helpers/fetchData"
+import { sendRequestViaAuth } from "../../../helpers/fetchData"
 import { useState, useContext } from "react";
 import { ContactsContext } from "../Sidebar"
 
@@ -28,7 +28,7 @@ export default function Dropdown({ setDropdown }) {
         setLoading(true);
         let body = {};
         validateEmail(formData.search) ? body.email = formData.search : body.username = formData.search; 
-        postDataViaAuth('/contacts', body)
+        sendRequestViaAuth('/contacts', 'POST', body)
             .then((data) => {
                 setContacts(data.data);
                 setDropdown(false);
