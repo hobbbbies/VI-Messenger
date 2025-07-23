@@ -1,5 +1,5 @@
 import PropTypes from "prop-types"
-import PendingContact from "../Pending/PendingContact"
+import PendingContact from "./PendingContact"
 
 export default function PendingDropdown({pendingContacts, setPendingContacts}) {
     return (

@@ -142,14 +142,14 @@ const updateMessage = async (req, res) => {
 // @route   DELETE /api/contacts/:contactId
 const deleteMessage = async (req, res) => {
   try {
-    const messageId = parseInt(req.params.messageId);
+    const messageId = parseInt(req.body.messageId);
     const userId = parseInt(req.user.id);
 
     const message = await prisma.message.findUnique({
       where: { id: messageId },
     });
 
-    if (!message || !content) {
+    if (!message) {
       return res
         .status(404)
         .json({ success: false, message: "Message not found." });
@@ -162,7 +162,7 @@ const deleteMessage = async (req, res) => {
       });
     }
 
-    const deleteMessage = await prisma.post.delete({
+    const deleteMessage = await prisma.message.delete({
       where: {
         id: messageId,
       },
@@ -172,7 +172,8 @@ const deleteMessage = async (req, res) => {
       data: deleteMessage,
     });
   } catch (error) {
-    res.status(500).json({
+    console.error("Error deleting message: ", error);
+      res.status(500).json({
       success: false,
       message: "Error deleting message",
       error: error.message,

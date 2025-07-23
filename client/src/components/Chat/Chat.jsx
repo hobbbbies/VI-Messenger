@@ -8,29 +8,42 @@ import Textbar from './Textbar/Textbar';
 
 export default function Chat() {
     const [conversation, setConversation] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const { username, contactId } = useParams();
 
     useEffect(() => {
-        setLoading(true);
-        fetchDataViaAuth(`/contacts/${contactId}/messages`)
-            .then(data => {
-                setConversation(data.data);
-                setError(null);
-            })
-            .catch(error => {
-                setError(error.message);
-                console.error('Failed to fetch messages:', error);
-            })
-            .finally(() => {
-                setLoading(false);
-            });    
+        if (contactId) {
+            setLoading(true);
+            fetchDataViaAuth(`/contacts/${contactId}/messages`)
+                .then(data => {
+                    setConversation(data.data);
+                    setError(null);
+                })
+                .catch(error => {
+                    setError(error.message);
+                    console.error('Failed to fetch messages:', error);
+                })
+                .finally(() => {
+                    setLoading(false);
+                });   
+        }
     }, [contactId])
 
     if (loading) return <div>Loading contacts...</div>;
     if (error) return <div>Error: {error}</div>;
 
+    if (!username || !contactId) {
+        return (
+            <div>            
+                <Sidebar />
+                <div>
+                    <h2>Start a Chat Today!</h2>
+                </div>
+            </div>
+            
+        )
+    }
 
     return (
         <div>
@@ -42,9 +55,12 @@ export default function Chat() {
                         return (
                             <Message
                                 key={message.id}
+                                messageId={message.id}
                                 username={message.user?.username}
                                 content={message.content}
                                 createdAt={message.createdAt}
+                                conversation={conversation}
+                                setConversation={setConversation}
                             />
                         )
                     })}

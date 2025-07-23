@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import PendingDropdown from '../Dropdown/PendingDropdown'
+import PendingDropdown from './PendingDropdown'
 import { fetchDataViaAuth } from "../../../helpers/fetchData";
 
 export default function Pending() {

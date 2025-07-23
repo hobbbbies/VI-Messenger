@@ -52,7 +52,6 @@ export default function Sidebar() {
                     {dropdown && <Dropdown setDropdown={setDropdown}/>} 
                 </div>
                 <ul>
-                    {console.log('contacts: ', contacts)}
                     {contacts.mutuals.map(contact => {
                         return <Contact 
                             key={contact.id} 

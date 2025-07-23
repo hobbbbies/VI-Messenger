@@ -1,7 +1,7 @@
 const { PrismaClient } = require("../generated/prisma");
 const prisma = new PrismaClient();
 
-// Finds all mutual contacts for given user
+// @desc    Finds all mutual contacts for given user
 const findMutuals = async (userId) => {
   const contacts = await prisma.user.findMany({
     where: {
@@ -21,7 +21,7 @@ const findMutuals = async (userId) => {
   return contacts;
 };
 
-// Finds all outgoing (pending) contacts for user
+// @desc    Finds all outgoing (pending) contacts for user
 const findPending = async (userId) => {
   const contacts = await prisma.user.findMany({
     where: {
@@ -41,7 +41,8 @@ const findPending = async (userId) => {
   return contacts;
 };
 
-// Add a contact (make user1 a contact of user2)
+// @desc    Add a contact (make user1 a contact of user2)
+// @route   POST /contacts
 const addContact = async (req, res) => {
   try {
     let { email, username, contactId } = req.body; // or req.params
@@ -118,6 +119,8 @@ const addContact = async (req, res) => {
   }
 };
 
+// @desc    Get all contacts for a logged in user
+// @route   GET /contacts
 const getContacts = async (req, res) => {
   try {
     const userId = req.user?.id;
@@ -139,17 +142,34 @@ const getContacts = async (req, res) => {
   }
 };
 
+// @desc    Get all incoming contacts for a logged in user
+// @route   GET /contacts/pending
 const getPending = async (req, res) => {
   try {
     const userId = req.user?.id;
     const user = await prisma.user.findUnique({
-      where: { id: userId },
-      include: { contactOf: { select: { id: true, username: true, email: true } } }
+      where: { id: userId, },
+      include: { 
+        contactOf: { select: { id: true, username: true, email: true } }, 
+        contacts: { select: { id: true, username: true, email: true }  }
+    }});
+
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "User not found",
+        error: "User not found"
+      });
+    }
+
+    // Filter incoming contacts (contactOf) that are not mutual
+    const pendingContacts = user.contactOf.filter(incoming => {
+      return !user.contacts.some(mutual => mutual.id === incoming.id);
     });
 
     res.status(200).json({
       success: true,
-      data: user.contactOf
+      data: pendingContacts
     });
 
   } catch (error) {
@@ -162,6 +182,8 @@ const getPending = async (req, res) => {
   }
 };
 
+// @desc    delete a given contacts for a logged in user
+// @route   DELETE /contacts
 const removeContact = async (req, res) => {
   try {
     const { contactId } = req.body;
@@ -189,6 +211,8 @@ const removeContact = async (req, res) => {
   }
 };
 
+// @desc    Delete a given *incoming* contact for a logged in user
+// @route   GET /contacts/pending
 const removeContactPending = async (req, res) => {
   try {
     const { contactId } = req.body;

@@ -15,4 +15,5 @@ router.delete('/pending', getToken, verifyToken, contactController.removeContact
 // Message routes
 router.get('/:contactId/messages', getToken, verifyToken, messageController.getAllMessages);
 router.post('/messages', getToken, verifyToken, messageController.createMessage);
+router.delete('/messages', getToken, verifyToken, messageController.deleteMessage);
 module.exports = router;    

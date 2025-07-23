@@ -27,6 +27,7 @@ export default function Header() {
     return (
         <header>
             <div>Welcome, {user?.username}</div>
+            <a href="/login">Login</a>
             <Outlet />
         </header>
     )

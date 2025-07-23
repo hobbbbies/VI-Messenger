@@ -1,5 +1,4 @@
 export function fetchDataViaAuth(endpoint) {
-    console.log('SERVER URL: ', import.meta.env.VITE_SERVER_URL);
     return fetch(`${import.meta.env.VITE_SERVER_URL}${endpoint}`, {
         method: 'GET', 
         headers: {
