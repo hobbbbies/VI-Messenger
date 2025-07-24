@@ -4,18 +4,17 @@ import { sendRequestViaAuth } from '../../helpers/fetchData';
 import { useOutletContext, useSearchParams } from 'react-router-dom';
 import Message from './Message/Message';
 import Textbar from './Textbar/Textbar';
-import Sidebar from '../Sidebar/Sidebar';
+import styles from './Chat.module.css';
 
 export default function Chat() {
     const [user, currentUser] = useOutletContext();
     const [conversation, setConversation] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [searchParams] = useSearchParams(); // React router dom way to access search queries
+    const [searchParams] = useSearchParams();
     const pendingParam = searchParams.get('pending');
     const [editId, setEditId] = useState(false);
     const [text, setText] = useState("");
-    // Might have to put user inside context
 
     useEffect(() => {
         if (currentUser?.id) {
@@ -33,41 +32,40 @@ export default function Chat() {
                     setLoading(false);
                 });   
         }
-    }, [currentUser])
+    }, [currentUser]);
 
     if (loading) return <div>Loading contacts...</div>;
     if (error) return <div>Error: {error}</div>;
 
     if (!currentUser) {
         return (
-            <div>            
-                <Sidebar />
-                <div>
-                    <h2>Start a Chat Today!</h2>
-                </div>
+            <div className={styles.chatContainer}>
+                <h2>Start a Chat Today!</h2>
             </div>
-        )
+        );
     }
 
     return (
         <div>
-            <Sidebar />
-            <div className={editId ? "chatContainer editingContainer" : "chatContainer"}>
-                <h2>Chat with {currentUser.username}</h2>
-                <h3>{(pendingParam === true || pendingParam === "true") && <span>This user hasn't added you back yet</span>}</h3>
-                <div className="messages">
-                {conversation.map((message) => (
-                    <div key={message.id} className={message.user?.id === user.id ? "right" : "left"}>
-                        <Message
-                            message={message}
-                            conversation={conversation}
-                            setConversation={setConversation}
-                            setText={setText}
-                            editId={editId}
-                            setEditId={setEditId}
-                        />
-                    </div>
-                ))}
+            <div className={editId ? `${styles.chatContainer} ${styles.editingContainer}` : styles.chatContainer}>
+                <h3 className='pendingNoti'>
+                  {(pendingParam === true || pendingParam === "true") && 
+                    <span>This user hasn't added you back yet</span>
+                  }
+                </h3>
+                <div className={styles.messages}>
+                    {conversation.map((message) => (
+                        <div key={message.id} className={message.user?.id === user.id ? styles.right : styles.left}>
+                            <Message
+                                message={message}
+                                conversation={conversation}
+                                setConversation={setConversation}
+                                setText={setText}
+                                editId={editId}
+                                setEditId={setEditId}
+                            />
+                        </div>
+                    ))}
                 </div>
                 <Textbar 
                     conversation={conversation} 
@@ -80,5 +78,5 @@ export default function Chat() {
                 />
             </div>
         </div>
-    )
+    );
 }

@@ -1,14 +1,15 @@
 .header {
     display: flex;
     max-width: 100%;
-    background-color: rgb(10, 58, 146);
-    height: 12vh;
+    background-color: var(--deep-teal);
     justify-content: space-between;
     padding: 10px 100px 20px 20px;
     position: sticky;
     top: 0;
     z-index: 1000;
     color: white;
+    border-radius: 10px 10px 0px 0px;
+    box-shadow: 0px 5px 5px rgb(94, 94, 94);
 }
 
 .leftSide {
@@ -19,34 +20,34 @@
 
 .rightSide {
     display: flex;
-    gap: 48px;
-    font-size: 2em;
-    align-items: center;
-}
-
-.rightSide > * {
-    color: black;
-}
-
-img {
-    border-radius: 20px;
-}
-
-.cart:hover {
-    cursor: pointer;
-}
-
-.cartSection {
-    position: relative;
-}
-
-.count {
-    position: absolute;
-    left: 70%;
-    top: -30%;
-    background-color: red;
-    border-radius: 100%;
-    padding: 5px 10px 5px 10px;
-    font-size: 0.5em;
+    align-self: center;
     color: white;
+}
+
+.mainContainer {
+    display: flex;
+}
+
+.chatSection {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black;
+    padding: 2em 2em 2em 2em;
+    border-radius: 12px;
+    background-color: var(--light-gray);
+}
+
+.userSection {
+    display: flex;
+    flex-direction: column;
+}
+
+.userSection > * {
+    margin: 0;
+    line-height: 1.2;
+}
+
+.email {
+    color: rgb(209, 209, 209);
 }

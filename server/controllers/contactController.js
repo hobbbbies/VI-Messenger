@@ -89,7 +89,6 @@ const addContact = async (req, res) => {
       }
     });
 
-    console.log("Updated user: ", updatedUser);
     if (!updatedUser) {
       return res.status(400).json({
         success: false,
@@ -253,7 +252,7 @@ const getAnyUser = async (req, res) => {
         id: parseInt(userId)
       }
     })
-    
+        
     res.status(200).json({
       success: true,
       data: user

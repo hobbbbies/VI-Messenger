@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { sendRequestViaAuth, sendRequestNoAuth } from "../../helpers/fetchData";
 import { useNavigate, useLocation, Outlet, useParams } from "react-router-dom";
 import styles from './Header.module.css';
+import Sidebar from "../Sidebar/Sidebar";
 
 export default function Header() {
     const [user, setUser] = useState(null)
@@ -22,7 +23,7 @@ export default function Header() {
             }).finally(() => {
                 setLoading(false);
             })
-            // Get other user too
+        // Get other user too
         sendRequestNoAuth(`/contacts/${contactId}`)
             .then(data => {
                 setCurrentContact(data.data);
@@ -34,14 +35,19 @@ export default function Header() {
     if (loading) return <div>Loading contacts...</div>;
 
     return (
-        <>
-            <header className={styles.header}>
-                <div className={styles.userSection}>
-                    <p className={styles.chattingWith}></p>
-                </div>
-                <a className={styles.rightSide} href="/login">Login</a>
-            </header>
-            <Outlet context={[user, currentContact]}/>
-        </>
+        <div className={styles.mainContainer}>
+            <Sidebar />
+            <div className={styles.chatSection}>
+                <header className={styles.header}>
+                    <div className={styles.userSection}>
+                        <div className={styles.icon}></div>
+                        <strong className={styles.chattingWith}>{currentContact?.username}</strong>
+                        <small className={styles.email}>{currentContact?.email}</small>
+                    </div>
+                    <a className={styles.rightSide} href="/login">Login</a>
+                </header>
+                <Outlet context={[user, currentContact]}/>
+            </div>
+        </div>
     )
 }
