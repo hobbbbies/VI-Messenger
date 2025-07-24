@@ -1,7 +1,6 @@
 import { StrictMode } from 'react'
 import './index.css'
-import App from './App.jsx'
-import Login from './components/Login.jsx'
+import Login from './components/Login/Login.jsx'
 import Chat from './components/Chat/Chat.jsx'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
@@ -17,7 +16,7 @@ const router = createBrowserRouter([
     element: <Header />,
     children: [
       {index: true, element: <Chat />},
-      {path: ':username/:contactId', element: <Chat />}
+      {path: ':contactUsername/:contactId', element: <Chat />}
     ]
   }
 ])

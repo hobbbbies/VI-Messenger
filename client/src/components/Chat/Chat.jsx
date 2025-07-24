@@ -1,27 +1,26 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
-import { useParams, useOutletContext, useSearchParams } from 'react-router-dom';
 import { sendRequestViaAuth } from '../../helpers/fetchData';
+import { useOutletContext, useSearchParams } from 'react-router-dom';
 import Message from './Message/Message';
 import Textbar from './Textbar/Textbar';
 import Sidebar from '../Sidebar/Sidebar';
 
 export default function Chat() {
-    const user = useOutletContext();
+    const [user, currentUser] = useOutletContext();
     const [conversation, setConversation] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const { username, contactId } = useParams();
-    const [searchParams, setSearchParams] = useSearchParams(); // React router dom way to access search queries
+    const [searchParams] = useSearchParams(); // React router dom way to access search queries
     const pendingParam = searchParams.get('pending');
     const [editId, setEditId] = useState(false);
     const [text, setText] = useState("");
     // Might have to put user inside context
 
     useEffect(() => {
-        if (contactId) {
+        if (currentUser?.id) {
             setLoading(true);
-            sendRequestViaAuth(`/contacts/${contactId}/messages`)
+            sendRequestViaAuth(`/contacts/${currentUser.id}/messages`)
                 .then(data => {
                     setConversation(data.data);
                     setError(null);
@@ -34,12 +33,12 @@ export default function Chat() {
                     setLoading(false);
                 });   
         }
-    }, [contactId])
+    }, [currentUser])
 
     if (loading) return <div>Loading contacts...</div>;
     if (error) return <div>Error: {error}</div>;
 
-    if (!username || !contactId) {
+    if (!currentUser) {
         return (
             <div>            
                 <Sidebar />
@@ -47,7 +46,6 @@ export default function Chat() {
                     <h2>Start a Chat Today!</h2>
                 </div>
             </div>
-            
         )
     }
 
@@ -55,7 +53,7 @@ export default function Chat() {
         <div>
             <Sidebar />
             <div className={editId ? "chatContainer editingContainer" : "chatContainer"}>
-                <h2>Chat with {username}</h2>
+                <h2>Chat with {currentUser.username}</h2>
                 <h3>{(pendingParam === true || pendingParam === "true") && <span>This user hasn't added you back yet</span>}</h3>
                 <div className="messages">
                 {conversation.map((message) => (
@@ -74,7 +72,7 @@ export default function Chat() {
                 <Textbar 
                     conversation={conversation} 
                     setConversation={setConversation} 
-                    contactId={contactId} 
+                    contactId={currentUser.id} 
                     text={text} 
                     setText={setText}
                     editId={editId}

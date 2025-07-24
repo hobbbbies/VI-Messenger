@@ -245,10 +245,34 @@ const removeContactPending = async (req, res) => {
   }
 };
 
+const getAnyUser = async (req, res) => {
+  try{
+    const { userId } = req.params;
+    const user = await prisma.user.findUnique({
+      where: {
+        id: parseInt(userId)
+      }
+    })
+    
+    res.status(200).json({
+      success: true,
+      data: user
+    });
+  } catch (error) {
+    console.error("Error removing requested contact:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error removing contact request",
+      error: error.message
+    }); 
+  }
+}
+
 module.exports = {
   addContact,
   getContacts,
   getPending,
   removeContact,
   removeContactPending,
+  getAnyUser
 };

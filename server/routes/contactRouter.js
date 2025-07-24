@@ -11,10 +11,11 @@ router.post('/', getToken, verifyToken, contactController.addContact);
 router.delete('/', getToken, verifyToken, contactController.removeContact);
 router.get('/pending', getToken, verifyToken, contactController.getPending);
 router.delete('/pending', getToken, verifyToken, contactController.removeContactPending);
+router.get('/:userId', contactController.getAnyUser);
 
 // Message routes
 router.get('/:contactId/messages', getToken, verifyToken, messageController.getAllMessages);
 router.post('/messages', getToken, verifyToken, messageController.createMessage);
 router.delete('/messages', getToken, verifyToken, messageController.deleteMessage);
-router.put('/messages', getToken, verifyToken, messageController.updateMessage)
+router.put('/messages', getToken, verifyToken, messageController.updateMessage);
 module.exports = router;    

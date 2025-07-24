@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { sendRequestNoAuth } from '../helpers/fetchData';
+import { sendRequestNoAuth } from '../../helpers/fetchData';
 
 export default function Login() {
     const [formData, setFormData] = useState({ email: '', password: '' });

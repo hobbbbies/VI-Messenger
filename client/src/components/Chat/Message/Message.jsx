@@ -27,7 +27,6 @@ export default function Message({ message, conversation, setConversation, setTex
         setText('');
     }
 
-    console.log('message: ', message)
     return (
         // Nested if: If editing ---> if messageId === editing id ---> set className
         <div className={editId ? (message.id === editId ? "message editing" : "message background") : "message" }>

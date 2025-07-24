@@ -70,3 +70,10 @@ button:focus-visible {
 .editing {
   background-color: gray;
 }
+
+#root  {
+  border: 0;
+  padding: 0;
+  box-sizing: border-box;
+  width: 100vw;
+}

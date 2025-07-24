@@ -1,0 +1,52 @@
+.header {
+    display: flex;
+    max-width: 100%;
+    background-color: rgb(10, 58, 146);
+    height: 12vh;
+    justify-content: space-between;
+    padding: 10px 100px 20px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    color: white;
+}
+
+.leftSide {
+    display: flex;
+    gap: 3em;
+    align-items: center;
+}
+
+.rightSide {
+    display: flex;
+    gap: 48px;
+    font-size: 2em;
+    align-items: center;
+}
+
+.rightSide > * {
+    color: black;
+}
+
+img {
+    border-radius: 20px;
+}
+
+.cart:hover {
+    cursor: pointer;
+}
+
+.cartSection {
+    position: relative;
+}
+
+.count {
+    position: absolute;
+    left: 70%;
+    top: -30%;
+    background-color: red;
+    border-radius: 100%;
+    padding: 5px 10px 5px 10px;
+    font-size: 0.5em;
+    color: white;
+}
