@@ -10,7 +10,7 @@ export default function Header() {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
-    const { contactId } = useParams();
+    // const { contactId } = useParams();
 
     useEffect(() => {
         setLoading(true);
@@ -19,24 +19,26 @@ export default function Header() {
                 setUser(data.data);
             }).catch(error => {
                 console.error('User may not be logged in: ', error);
-                if (location.pathname != '/auth/login') navigate('/auth/login');
+                if (location.pathname != '/login') navigate('/login');
             }).finally(() => {
                 setLoading(false);
             })
-        // Get other user too
-        sendRequestNoAuth(`/contacts/${contactId}`)
-            .then(data => {
-                setCurrentContact(data.data);
-            }).catch(error => {
-                console.error('error fetching current contact: ', error);
-            }) 
-    }, [location, navigate, contactId]);
+        // Get other user too NOT NEEDED
+        // if (currentContact) {
+        //     sendRequestNoAuth(`/contacts/${currentContact.id}`)
+        //         .then(data => {
+        //             setCurrentContact(data.data);
+        //         }).catch(error => {
+        //             console.error('error fetching current contact: ', error);
+        //         }) 
+        // }
+    }, [location, navigate]);
 
     if (loading) return <div>Loading contacts...</div>;
 
     return (
         <div className={styles.mainContainer}>
-            <Sidebar />
+            <Sidebar setCurrentContact={setCurrentContact}/>
             <div className={styles.chatSection}>
                 <header className={styles.header}>
                     <div className={styles.userSection}>

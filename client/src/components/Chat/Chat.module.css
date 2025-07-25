@@ -1,24 +1,38 @@
 .chatContainer {
     position: relative;
     /* background-color: var(--light-sky-blue); */
-    overflow-y: scroll;
-    max-height: 30em;
+    max-height: 100%;
 
 }
 
 .pendingNoti {
-    position: sticky;
-    top: 0;
+    color: hotpink
 }
 
 .messages {
-    padding: 50px;
+    padding: 0 0 5em;
+    max-height: 45vh;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
 }
 
 .left, .right {
-    background-color: var(--light-sky-blue);
-    margin: 10px 0 10px 0;
-    border-radius: 20px;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px; 
-    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0 0 0;
+}
+
+.left:first-child, .right:first-child {
+    margin: 0;
+}
+
+.left {
+    align-self: start;
+    align-items: start;
+}
+
+.right {
+    align-self: end;
+    align-items: end;
 }

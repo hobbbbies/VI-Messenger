@@ -16,7 +16,7 @@ const router = createBrowserRouter([
     element: <Header />,
     children: [
       {index: true, element: <Chat />},
-      {path: ':contactUsername/:contactId', element: <Chat />}
+      {path: ':contactId', element: <Chat />}
     ]
   }
 ])

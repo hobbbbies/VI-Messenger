@@ -1,9 +1,10 @@
 import { useState, useRef } from 'react'
 import { sendRequestViaAuth } from '../../../helpers/fetchData';
+import styles from './Textbar.module.css'
 
 export default function Textbar({ conversation, setConversation, contactId, text, setText, editId, setEditId }) {
     const [formData, setFormData] = useState({ content: '' });
-    const inputRef = useRef(null);
+    // const inputRef = useRef(null);
 
     const handleChange = (e) => {
         //This causes conversation to rerender on every input.
@@ -22,7 +23,8 @@ export default function Textbar({ conversation, setConversation, contactId, text
                     // setMessage(`Error: ${error.message}`);
                     console.error('Error sending message:', error);
                 }).finally(() => {
-                    inputRef.current.value = "";
+                    setText('');
+                    // inputRef.current.value = "";
                 })    
         } else { // Editing mode
             sendRequestViaAuth('/contacts/messages', 'PUT', { content: text, messageId: editId})
@@ -44,9 +46,17 @@ export default function Textbar({ conversation, setConversation, contactId, text
     }
 
     return (
-        <form onSubmit={submitForm}>
-            <input type="text" onChange={handleChange} name="content" ref={inputRef} value={text}></input>
-            <button>Send</button>
-        </form>
-    )
+    <form onSubmit={submitForm} className={styles.textForm}>
+      <input
+        type="text"
+        className={styles.inputField}
+        onChange={handleChange}
+        name="content"
+        // ref={inputRef}
+        value={text}
+        placeholder="Type your message here..."
+      />
+      <button type="submit" className={styles.submitButton}>Send</button>
+    </form>
+  );
 }

@@ -48,9 +48,9 @@ export default function Chat() {
     return (
         <div>
             <div className={editId ? `${styles.chatContainer} ${styles.editingContainer}` : styles.chatContainer}>
-                <h3 className='pendingNoti'>
+                <h3 className={styles.pendingNoti}>
                   {(pendingParam === true || pendingParam === "true") && 
-                    <span>This user hasn't added you back yet</span>
+                    <>This user hasn't added you back yet</>
                   }
                 </h3>
                 <div className={styles.messages}>

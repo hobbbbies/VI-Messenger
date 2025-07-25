@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { sendRequestViaAuth } from '../../../helpers/fetchData';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+import styles from './Message.module.css'
 
 export default function Message({ message, conversation, setConversation, setText, editId, setEditId }) {
     const dateRef = useRef(new Date(message.createdAt));
@@ -29,15 +30,29 @@ export default function Message({ message, conversation, setConversation, setTex
 
     return (
         // Nested if: If editing ---> if messageId === editing id ---> set className
-        <div className={editId ? (message.id === editId ? "message editing" : "message background") : "message" }>
-            <strong>{message.user.username}:</strong> {message.content}
-            <small> </small>
-            <small>{dateRef.current.getMonth()}/{dateRef.current.getDate()} {dateRef.current.toLocaleTimeString()}</small>
-            <small>{message.edited && <>(<i>edited</i>)</>}</small>
+        <>
+        <small className={styles.date}>{dateRef.current.getMonth()}/{dateRef.current.getDate()} {dateRef.current.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</small>
+        <div className={
+            editId 
+            ? (message.id === editId 
+                    ? `${styles.message} ${styles.editing}` 
+                    : `${styles.message} ${styles.background}`)
+            : styles.message 
+            }
+        >
+            <div className={styles.mainSection}>
+                <strong className={styles.username}>{message.user.username}:</strong>
+                <small>{message.edited && <> (<i>edited</i>)</>}</small>
+                <p>{message.content}</p>
+            </div>
             {(message.id === editId) && <div onClick={stopEditing}>Stop Editing</div>}
-            <div onClick={editMessage}>Edit</div>
-            <div onClick={deleteMessage}>Delete</div>
+            <div className={styles.editOptions}>
+                <div onClick={editMessage}>Edit</div>
+                <div onClick={deleteMessage}>Delete</div>
+            </div>
         </div>
+        </>
+
     );
 }
 

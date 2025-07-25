@@ -1,0 +1,32 @@
+.textForm {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.8rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.inputField {
+  flex: 1;
+  border: 1px solid hotpink;
+  border-radius: 4px;
+  padding: 0.5rem;
+  font-size: 1rem;
+  background-color: white;
+}
+
+.submitButton {
+  padding: 0.5rem 1rem;
+  background-color: var(--black);
+  color: var(--white);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border: 1px solid white;
+}
+
+.submitButton:hover {
+  border-color: hotpink
+}

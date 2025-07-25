@@ -6,7 +6,7 @@ import Pending from "./Pending/Pending";
 
 export const ContactsContext = createContext();
 
-export default function Sidebar() {
+export default function Sidebar({ setCurrentContact }) {
     const [contacts, setContacts] = useState({});
     const [dropdown, setDropdown] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -55,19 +55,17 @@ export default function Sidebar() {
                     {contacts.mutuals.map(contact => {
                         return <Contact 
                             key={contact.id} 
-                            id={contact.id} 
-                            email={contact.email} 
-                            username={contact.username}
+                            contact={contact}
                             pending={false}
+                            setCurrentContact={setCurrentContact}
                             />
                     })}
                     {contacts.pending.map(contact => {
                         return <Contact 
                             key={contact.id} 
-                            id={contact.id} 
-                            email={contact.email} 
-                            username={contact.username}
+                            contact={contact}
                             pending={true}
+                            setCurrentContact={setCurrentContact}
                             />
                     })}
                 </ul>

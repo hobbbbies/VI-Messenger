@@ -1,29 +1,27 @@
-import { useNavigate } from "react-router-dom"
 import PropTypes from "prop-types"
 import { sendRequestViaAuth } from "../../../helpers/fetchData";
 import { useState, useContext } from 'react'
 import { ContactsContext } from "../Sidebar"
 
-export default function Contact({id, email, username, pending }) {
+export default function Contact({contact, pending, setCurrentContact }) {
     const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
     const { contacts, setContacts } = useContext(ContactsContext);
 
     const handleClick =  () => {
-        navigate(`/contacts/${username}/${id}?pending=${pending}`)
+        // set currentContact instead
+        setCurrentContact(contact);
     }
 
     const deleteContact = () => {
         setLoading(true);
-        sendRequestViaAuth('/contacts', 'DELETE', { contactId: id })
+        sendRequestViaAuth('/contacts', 'DELETE', { contactId: contact.id })
             .then(() => {
-                const newMutuals = contacts.mutuals.filter((user) => user.id != id);
-                const newPending = contacts.pending.filter((user) => user.id != id);
+                const newMutuals = contacts.mutuals.filter((user) => user.id != contact.id);
+                const newPending = contacts.pending.filter((user) => user.id != contact.id);
                 
                 setContacts({...contacts, mutuals: newMutuals, pending: newPending});
             })
             .catch(error => {
-                // setMessage(`Error: ${error.message}`);
                 console.error('Error adding contact:', error);
                 setLoading(false);  
             })
@@ -35,8 +33,8 @@ export default function Contact({id, email, username, pending }) {
 
     return (
         <div onClick={handleClick}>
-            <div>{username}</div>
-            <div>{email}</div>
+            <div>{contact.username}</div>
+            <div>{contact.email}</div>
             {pending && <p>(Pending)</p>}
             <div onClick={deleteContact}>X</div>
         </div>
