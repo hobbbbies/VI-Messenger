@@ -3,6 +3,7 @@ import Contact from "./Contact/Contact";
 import {sendRequestViaAuth} from "../../helpers/fetchData";
 import Dropdown from "./Dropdown/Dropdown";
 import Pending from "./Pending/Pending";
+import styles from './Sidebar.module.css'
 
 export const ContactsContext = createContext();
 
@@ -45,7 +46,7 @@ export default function Sidebar({ setCurrentContact }) {
 
     return (
         <ContactsContext.Provider value={value} >
-            <aside>
+            <aside className={styles.sidebar}>
                 <div>
                     <h2>Contacts</h2>
                     <button onClick={handleClick}>New Contact</button>

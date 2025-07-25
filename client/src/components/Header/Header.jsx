@@ -7,13 +7,11 @@ import Sidebar from "../Sidebar/Sidebar";
 export default function Header() {
     const [user, setUser] = useState(null)
     const [currentContact, setCurrentContact] = useState(null);
-    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
     // const { contactId } = useParams();
 
     useEffect(() => {
-        setLoading(true);
         sendRequestViaAuth('/auth/user')
             .then(data => {
                 setUser(data.data);
@@ -21,7 +19,6 @@ export default function Header() {
                 console.error('User may not be logged in: ', error);
                 if (location.pathname != '/login') navigate('/login');
             }).finally(() => {
-                setLoading(false);
             })
         // Get other user too NOT NEEDED
         // if (currentContact) {
@@ -34,7 +31,7 @@ export default function Header() {
         // }
     }, [location, navigate]);
 
-    if (loading) return <div>Loading contacts...</div>;
+    // if (loading) return <div>Loading contacts...</div>;
 
     return (
         <div className={styles.mainContainer}>

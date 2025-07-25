@@ -1,3 +1,8 @@
+.mainContainer {
+    height: 100vh;
+    display: flex;
+}
+
 .header {
     display: flex;
     max-width: 100%;
@@ -24,12 +29,9 @@
     color: var(--text-color);
 }
 
-.mainContainer {
-    display: flex;
-}
-
 .chatSection {
     width: 100%;
+    max-height: 70vh;
     display: flex;
     flex-direction: column;
     border: 2px solid black;
@@ -37,6 +39,7 @@
     border-radius: 12px;
     background-color: var(--black);
     color: white;
+    background-color: white;
 }
 
 .userSection {
