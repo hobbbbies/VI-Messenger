@@ -47,12 +47,14 @@ export default function Sidebar({ setCurrentContact }) {
     return (
         <ContactsContext.Provider value={value} >
             <aside className={styles.sidebar}>
-                <div>
+                <div className={styles.sidebarHeader}>
                     <h2>Contacts</h2>
-                    <button onClick={handleClick}>New Contact</button>
-                    {dropdown && <Dropdown setDropdown={setDropdown}/>} 
+                    <div className={styles.addContactContainer}>
+                        <button onClick={handleClick}>New Contact</button>
+                        {dropdown && <Dropdown setDropdown={setDropdown}/>}
+                    </div>
                 </div>
-                <ul>
+                <ul className={styles.contactList}>
                     {contacts.mutuals.map(contact => {
                         return <Contact 
                             key={contact.id} 
@@ -70,7 +72,7 @@ export default function Sidebar({ setCurrentContact }) {
                             />
                     })}
                 </ul>
-                <Pending />
+                <Pending contacts={contacts}/>
             </aside>
         </ContactsContext.Provider>
     )

@@ -1,0 +1,48 @@
+
+.contact {
+    background: var(--black);
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    padding: 1em 1.2em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2em;
+    cursor: pointer;
+    transition: background 0.18s, box-shadow 0.18s;
+    border: 1px solid transparent;
+    position: relative;
+}
+.contact:hover {
+    background: var(--hover-grey);
+    box-shadow: 0 2px 8px rgba(79,140,255,0.08);
+    border: 1px solid white;
+}
+
+.contact > div:first-child {
+    font-weight: 600;
+    color: white;
+    font-size: 1.08em;
+}
+.contact > div:nth-child(2) {
+    color: var(--secondary, #6b7a90);
+    font-size: 0.98em;
+    margin-bottom: 0.2em;
+}
+.contact p {
+    color: var(--pending, #ff4fa3);
+    font-size: 0.92em;
+    margin: 0.1em 0 0.2em 0;
+}
+.deleteBtn {
+    position: absolute;
+    top: 0.7em;
+    right: 1em;
+    color: var(--danger, #ff4f4f);
+    font-size: 1.1em;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.15s;
+}
+.deleteBtn:hover {
+    opacity: 1;
+}

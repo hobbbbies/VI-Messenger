@@ -1,0 +1,67 @@
+.dropdown {
+    position: absolute;
+    left: 50%;
+    top: 3.5em;
+    transform: translateX(-50%);
+    min-width: 260px;
+    max-width: 320px;
+    width: 100%;
+    box-sizing: border-box;
+    background: var(--hover-grey);
+    border-radius: 10px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+    border: 1px solid var(--hover-grey);
+    padding: 1.2em 1em 1em 1em;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8em;
+    animation: dropdownFadeIn 0.18s ease;
+}
+
+@keyframes dropdownFadeIn {
+    from { opacity: 0; transform: translateY(-10px) translateX(-50%); }
+    to { opacity: 1; transform: translateY(0) translateX(-50%); }
+}
+
+.searchBar {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 0.7em 1em;
+    border-radius: 6px;
+    border: 1px solid var(--hover-grey);
+    font-size: 1em;
+    background: var(--black);
+    color: var(--white);
+    outline: none;
+    margin-bottom: 0.7em;
+    transition: border 0.15s, background 0.15s;
+}
+.searchBar:focus {
+    border: 1.5px solid hotpink;
+    background: var(--hover-grey);
+}
+
+.button {
+    width: 100%;
+    background: var(--hover-grey);
+    color: var(--white);
+    border: none;
+    border-radius: 6px;
+    padding: 0.7em 0;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    transition: background 0.18s, color 0.18s;
+}
+.button:disabled {
+    background: #444;
+    color: #aaa;
+    cursor: not-allowed;
+}
+.button:hover:not(:disabled) {
+    background: hotpink;
+    color: var(--white);
+}

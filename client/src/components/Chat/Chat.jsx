@@ -63,6 +63,7 @@ export default function Chat() {
                                 setText={setText}
                                 editId={editId}
                                 setEditId={setEditId}
+                                userId={user.id}
                             />
                         </div>
                     ))}

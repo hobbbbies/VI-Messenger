@@ -1,7 +1,10 @@
 import { sendRequestViaAuth } from "../../../helpers/fetchData"
 import PropTypes from "prop-types";
 import { useContext } from "react";
-import { ContactsContext } from "../Sidebar"
+import { ContactsContext } from "../Sidebar";
+import { Check } from 'lucide-react';
+import { X } from 'lucide-react';
+import styles from './PendingContact.module.css';
 
 export default function PendingContact({ contactId, username, email, pendingContacts, setPendingContacts }) {
     const { setContacts } = useContext(ContactsContext);
@@ -33,10 +36,12 @@ export default function PendingContact({ contactId, username, email, pendingCont
 
     return (
         <div>
-            <div>{username}</div>
-            <div>{email}</div>
-            <div onClick={addContact}>+</div>
-            <div onClick={denyContact}>X</div>
+            <div className={styles.userInfo}>
+                <div className={styles.username}>{username}</div>
+                <small className={styles.email}>{email}</small>
+            </div>
+            <Check onClick={addContact} className={styles.add}/>
+            <X onClick={denyContact} className={styles.remove}/>
         </div>
     )
 }

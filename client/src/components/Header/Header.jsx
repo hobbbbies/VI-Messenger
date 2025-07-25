@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
-import { sendRequestViaAuth, sendRequestNoAuth } from "../../helpers/fetchData";
-import { useNavigate, useLocation, Outlet, useParams } from "react-router-dom";
+import { sendRequestViaAuth } from "../../helpers/fetchData";
+import { useNavigate, useLocation, Outlet } from "react-router-dom";
 import styles from './Header.module.css';
 import Sidebar from "../Sidebar/Sidebar";
 
@@ -20,15 +20,6 @@ export default function Header() {
                 if (location.pathname != '/login') navigate('/login');
             }).finally(() => {
             })
-        // Get other user too NOT NEEDED
-        // if (currentContact) {
-        //     sendRequestNoAuth(`/contacts/${currentContact.id}`)
-        //         .then(data => {
-        //             setCurrentContact(data.data);
-        //         }).catch(error => {
-        //             console.error('error fetching current contact: ', error);
-        //         }) 
-        // }
     }, [location, navigate]);
 
     // if (loading) return <div>Loading contacts...</div>;

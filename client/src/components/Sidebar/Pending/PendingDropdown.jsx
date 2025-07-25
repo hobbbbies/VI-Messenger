@@ -1,9 +1,10 @@
 import PropTypes from "prop-types"
 import PendingContact from "./PendingContact"
+import styles from './PendingDropdown.module.css'
 
 export default function PendingDropdown({pendingContacts, setPendingContacts}) {
     return (
-        <ul >
+        <ul className={styles.contactList}>
             {pendingContacts.map(contact => {
                 // Create way to delete pending contact
                 return <PendingContact 
@@ -15,6 +16,7 @@ export default function PendingDropdown({pendingContacts, setPendingContacts}) {
                         setPendingContacts={setPendingContacts}
                         />
             })} 
+            {!pendingContacts.length && <p className={styles.noPending}>No Pending Contacts</p>}
         </ul>
     )
 }

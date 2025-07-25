@@ -1,0 +1,41 @@
+
+.pendingContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1em 0 0.5em 0;
+    position: relative;
+}
+
+.pendingButton {
+    background: var(--hover-grey);
+    color: var(--white);
+    border: none;
+    border-radius: 6px;
+    padding: 0.6em 1.2em;
+    font-size: 1em;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.7em;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    transition: background 0.18s, color 0.18s;
+}
+.pendingButton:hover {
+    background: hotpink;
+    color: var(--white);
+}
+
+.pendingCount {
+    background: hotpink;
+    color: var(--white);
+    border-radius: 50%;
+    padding: 0.2em 0.7em;
+    font-size: 1em;
+    font-weight: 700;
+    margin-right: 0.3em;
+    box-shadow: 0 1px 4px rgba(255,79,163,0.12);
+}

@@ -1,0 +1,11 @@
+.email {
+    color: var(--text-color);
+}
+
+.userInfo {
+    padding-bottom: 10px;
+}
+
+.add, .remove {
+    cursor: pointer;
+}

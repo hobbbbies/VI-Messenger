@@ -1,7 +1,7 @@
 import { sendRequestViaAuth } from "../../../helpers/fetchData"
 import { useState, useContext } from "react";
 import { ContactsContext } from "../Sidebar"
-
+import styles from './Dropdown.module.css'
 
 export default function Dropdown({ setDropdown }) {
     const [formData, setFormData] = useState({ search: '' });
@@ -46,9 +46,10 @@ export default function Dropdown({ setDropdown }) {
     }
     
     return (
-        <div>
-            <form onSubmit={submitForm}>
+        <div className={styles.dropdown}>
+            <form onSubmit={submitForm}>    
                 <input
+                    className={styles.searchBar}
                     name="search"
                     type="text"
                     placeholder="Email address or username"
@@ -56,7 +57,7 @@ export default function Dropdown({ setDropdown }) {
                     required
                     aria-required>
                 </input>
-                <button type="submit" disabled={loading}>
+                <button type="submit" className={styles.button} disabled={loading}>
                     {loading ? 'Adding...' : 'Add Contact'}
                 </button>
             </form>

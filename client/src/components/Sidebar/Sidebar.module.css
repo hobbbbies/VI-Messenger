@@ -1,0 +1,60 @@
+.sidebar {
+    min-width: 260px;
+    max-width: 350px;
+    width: 100%;
+    height: 100vh;
+    background: var(--black);
+    border-right: 1px solid var(--border-color, #e0e0e0);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.03);
+    z-index: 2;
+}
+
+.sidebarHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5em 1em 1em 1em;
+    border-bottom: 1px solid var(--border-color, #e0e0e0);
+    background: var(--black);
+    color: white;
+}
+
+.sidebarHeader h2 {
+    font-size: 1.3em;
+    font-weight: 700;
+    color: var(white);
+    margin: 0;
+}
+
+.sidebarHeader button {
+    background: black;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.5em 1em;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.sidebarHeader button:hover {
+    background: var(--hover-grey, #357ae8);
+    border: 1px solid white;
+}
+
+.contactList {
+    overflow-y: auto;
+    padding: 0.5em 0.5em 1em 0.5em;
+    margin: 0;
+    list-style: none;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.addContactContainer {
+    position: relative;
+}

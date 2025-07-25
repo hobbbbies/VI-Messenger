@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import { sendRequestViaAuth } from '../../../helpers/fetchData';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import styles from './Message.module.css'
 
-export default function Message({ message, conversation, setConversation, setText, editId, setEditId }) {
+export default function Message({ message, conversation, setConversation, setText, editId, setEditId, userId }) {
     const dateRef = useRef(new Date(message.createdAt));
 
     const deleteMessage = () => {
@@ -45,11 +45,11 @@ export default function Message({ message, conversation, setConversation, setTex
                 <small>{message.edited && <> (<i>edited</i>)</>}</small>
                 <p>{message.content}</p>
             </div>
-            {(message.id === editId) && <div onClick={stopEditing}>Stop Editing</div>}
-            <div className={styles.editOptions}>
-                <div onClick={editMessage}>Edit</div>
+            {/* {(message.id === editId) && <div onClick={stopEditing}>Stop Editing</div>} */}
+            {message.user.id === userId && <div className={styles.editOptions}>
+                {message.id === editId ? <div onClick={stopEditing}>Stop Editing</div> : <div onClick={editMessage}>Edit</div> }
                 <div onClick={deleteMessage}>Delete</div>
-            </div>
+            </div>}
         </div>
         </>
 

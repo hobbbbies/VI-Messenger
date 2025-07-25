@@ -2,13 +2,17 @@ import PropTypes from "prop-types"
 import { sendRequestViaAuth } from "../../../helpers/fetchData";
 import { useState, useContext } from 'react'
 import { ContactsContext } from "../Sidebar"
+import styles from './Contact.module.css'
+import { useSearchParams } from "react-router-dom";
 
 export default function Contact({contact, pending, setCurrentContact }) {
     const [loading, setLoading] = useState(false);
     const { contacts, setContacts } = useContext(ContactsContext);
+    const [, setSearchParams] = useSearchParams();
 
     const handleClick =  () => {
         // set currentContact instead
+        setSearchParams({ pending: pending });
         setCurrentContact(contact);
     }
 
@@ -32,11 +36,11 @@ export default function Contact({contact, pending, setCurrentContact }) {
     if (loading) return <div>Loading contacts...</div>;
 
     return (
-        <div onClick={handleClick}>
-            <div>{contact.username}</div>
-            <div>{contact.email}</div>
+        <div className={styles.contact}>
+            <div onClick={handleClick}>{contact.username}</div>
+            <div onClick={handleClick}>{contact.email}</div>
             {pending && <p>(Pending)</p>}
-            <div onClick={deleteContact}>X</div>
+            <a href='#' className={styles.deleteBtn} onClick={deleteContact}>X</a>
         </div>
     )
 }

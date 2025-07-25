@@ -1,7 +1,3 @@
-.chatContainer {
-    max-height: 50vh;
-}
-
 .pendingNoti {
     color: hotpink
 }
@@ -9,7 +5,7 @@
 .messages {
     padding: 0 0 5em;
     overflow-y: scroll;
-    max-height: 45vh;
+    height: clamp(10px, 45vh, 45vh);
     display: flex;
     flex-direction: column;
 }
