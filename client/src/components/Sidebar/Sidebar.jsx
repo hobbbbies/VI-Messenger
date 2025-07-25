@@ -50,7 +50,7 @@ export default function Sidebar({ setCurrentContact }) {
                 <div className={styles.sidebarHeader}>
                     <h2>Contacts</h2>
                     <div className={styles.addContactContainer}>
-                        <button onClick={handleClick}>New Contact</button>
+                        <button className={styles.newContact} onClick={handleClick}>New Contact</button>
                         {dropdown && <Dropdown setDropdown={setDropdown}/>}
                     </div>
                 </div>

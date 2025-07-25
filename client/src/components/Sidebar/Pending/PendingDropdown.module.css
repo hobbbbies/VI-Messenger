@@ -9,8 +9,8 @@
     box-sizing: border-box;
     background: var(--black);
     border-radius: 10px;
-    box-shadow: 0 4px 24px rgba(255,79,163,0.18);
-    border: 2px solid hotpink;
+    box-shadow: 0 4px 24px var(--danger-red, #ff4f4f33);
+    border: 2px solid var(--danger-red);
     padding: 1.2em 1em 1em 1em;
     z-index: 999;
     display: flex;

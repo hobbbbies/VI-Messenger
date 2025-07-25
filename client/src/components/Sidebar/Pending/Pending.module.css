@@ -25,12 +25,12 @@
     transition: background 0.18s, color 0.18s;
 }
 .pendingButton:hover {
-    background: hotpink;
+    background: var(--danger-red);
     color: var(--white);
 }
 
 .pendingCount {
-    background: hotpink;
+    background: var(--danger-red);
     color: var(--white);
     border-radius: 50%;
     padding: 0.2em 0.7em;

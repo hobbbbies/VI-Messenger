@@ -52,10 +52,6 @@ const createMessage = async (req, res) => {
     const { content, contactId } = req.body;
     const userId = parseInt(req.user?.id);
 
-    console.log('userId: ', userId);
-    console.log("content", content);
-    console.log('contactId: ', contactId);
-
     if (!content || !contactId) {
       return res
         .status(400)
@@ -103,9 +99,6 @@ const updateMessage = async (req, res) => {
     const message = await prisma.message.findUnique({
       where: { id: messageId },
     });
-
-    console.log('message: ', message);
-    console.log('content: ', content);
 
     if (!message || !content) {
       return res

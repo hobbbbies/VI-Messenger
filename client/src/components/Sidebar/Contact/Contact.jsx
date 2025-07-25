@@ -16,13 +16,13 @@ export default function Contact({contact, pending, setCurrentContact }) {
         setCurrentContact(contact);
     }
 
-    const deleteContact = () => {
+    const deleteContact = (e) => {
+        e.stopPropagation();
         setLoading(true);
         sendRequestViaAuth('/contacts', 'DELETE', { contactId: contact.id })
             .then(() => {
                 const newMutuals = contacts.mutuals.filter((user) => user.id != contact.id);
                 const newPending = contacts.pending.filter((user) => user.id != contact.id);
-                
                 setContacts({...contacts, mutuals: newMutuals, pending: newPending});
             })
             .catch(error => {
@@ -36,9 +36,9 @@ export default function Contact({contact, pending, setCurrentContact }) {
     if (loading) return <div>Loading contacts...</div>;
 
     return (
-        <div className={styles.contact}>
-            <div onClick={handleClick}>{contact.username}</div>
-            <div onClick={handleClick}>{contact.email}</div>
+        <div onClick={handleClick} className={styles.contact}>
+            <div>{contact.username}</div>
+            <div>{contact.email}</div>
             {pending && <p>(Pending)</p>}
             <a href='#' className={styles.deleteBtn} onClick={deleteContact}>X</a>
         </div>

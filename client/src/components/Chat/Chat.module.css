@@ -1,5 +1,5 @@
 .pendingNoti {
-    color: hotpink
+    color: var(--danger-red);
 }
 
 .messages {

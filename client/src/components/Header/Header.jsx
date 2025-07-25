@@ -34,7 +34,7 @@ export default function Header() {
                         <strong className={styles.chattingWith}>{currentContact?.username}</strong>
                         <small className={styles.email}>{currentContact?.email}</small>
                     </div>
-                    <a className={styles.rightSide} href="/login">Login</a>
+                    <a className={styles.rightSide} href="/login">Change Account</a>
                 </header>
                 <Outlet context={[user, currentContact]}/>
             </div>

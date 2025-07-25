@@ -7,6 +7,7 @@ export default function Dropdown({ setDropdown }) {
     const [formData, setFormData] = useState({ search: '' });
     const [loading, setLoading] = useState(false);
     const { setContacts } = useContext(ContactsContext);
+    const [message, setMessage] = useState('');
 
     const validateEmail = (email) => {
     return String(email)
@@ -36,7 +37,7 @@ export default function Dropdown({ setDropdown }) {
                 setFormData({ search: '' }); // Clear form
             })
             .catch(error => {
-                // setMessage(`Error: ${error.message}`);
+                setMessage(`Couldn't find user: "${formData.search}"`);
                 console.error('Error adding contact:', error);
                 setLoading(false);  
             })
@@ -47,6 +48,7 @@ export default function Dropdown({ setDropdown }) {
     
     return (
         <div className={styles.dropdown}>
+            <p>{message}</p>
             <form onSubmit={submitForm}>    
                 <input
                     className={styles.searchBar}

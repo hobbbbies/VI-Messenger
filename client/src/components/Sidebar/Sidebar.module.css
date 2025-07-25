@@ -29,21 +29,6 @@
     margin: 0;
 }
 
-.sidebarHeader button {
-    background: black;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    padding: 0.5em 1em;
-    font-size: 1em;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-.sidebarHeader button:hover {
-    background: var(--hover-grey, #357ae8);
-    border: 1px solid white;
-}
-
 .contactList {
     overflow-y: auto;
     padding: 0.5em 0.5em 1em 0.5em;
@@ -57,4 +42,19 @@
 
 .addContactContainer {
     position: relative;
+}
+
+.newContact {
+    background: black;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.5em 1em;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.newContact:hover {
+    background: var(--danger-red);
 }
