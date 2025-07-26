@@ -5,9 +5,12 @@ import { useOutletContext, useSearchParams } from 'react-router-dom';
 import Message from './Message/Message';
 import Textbar from './Textbar/Textbar';
 import styles from './Chat.module.css';
+import useSocketSetup from '../../useSocketSetup';
+import socket from '../../socket';
 
 export default function Chat() {
-    const [user, currentUser] = useOutletContext();
+    useSocketSetup();
+    const [user, currentContact] = useOutletContext();
     const [conversation, setConversation] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -17,9 +20,16 @@ export default function Chat() {
     const [text, setText] = useState("");
 
     useEffect(() => {
-        if (currentUser?.id) {
+        socket.on('received-message', (message) => {
+            console.log('Adding: ', message.content);
+            setConversation(prev => [...prev, message.content]);
+        });
+
+        console.log('currentContact: ', currentContact?.id);
+        // Only if convo is uninitialized, otherwise use websockets
+        if (currentContact?.id && !conversation.length) {
             setLoading(true);
-            sendRequestViaAuth(`/contacts/${currentUser.id}/messages`)
+            sendRequestViaAuth(`/contacts/${currentContact.id}/messages`)
                 .then(data => {
                     setConversation(data.data);
                     setError(null);
@@ -32,12 +42,12 @@ export default function Chat() {
                     setLoading(false);
                 });   
         }
-    }, [currentUser]);
+    }, [currentContact?.id]);
 
     if (loading) return <div>Loading contacts...</div>;
     if (error) return <div>Error: {error}</div>;
 
-    if (!currentUser) {
+    if (!currentContact) {
         return (
             <div className={styles.chatContainer}>
                 <h2>Start a Chat Today!</h2>
@@ -71,7 +81,7 @@ export default function Chat() {
                 <Textbar 
                     conversation={conversation} 
                     setConversation={setConversation} 
-                    contactId={currentUser.id} 
+                    contactId={currentContact?.id} 
                     text={text} 
                     setText={setText}
                     editId={editId}

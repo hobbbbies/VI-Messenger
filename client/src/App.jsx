@@ -5,6 +5,6 @@ import Sidebar from "./components/Sidebar/Sidebar"
 export default App() {
 
     return (
-        <div className=></div>
+       
     )
 }

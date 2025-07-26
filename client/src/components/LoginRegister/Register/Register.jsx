@@ -82,7 +82,7 @@ export default function Register() {
             
                 <button type="submit">Sign Up</button>
                 <Link to="/login">Already Have an Account? Login Here</Link>
-                <p>Or Use one of these two demo accounts: 
+                <p>Or Use one of these demo accounts: 
                     <DemoLogin demoEmail={"demo@test.com"} demoPassword={"demo123"} demoUsername={"John Doe"}/>,  
                     <DemoLogin demoEmail={"demo3@test.com"} demoPassword={"demo789"} demoUsername={"Joe Brown"}/>
                 </p>

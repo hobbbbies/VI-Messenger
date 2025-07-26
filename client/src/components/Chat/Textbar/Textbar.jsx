@@ -1,6 +1,7 @@
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import { sendRequestViaAuth } from '../../../helpers/fetchData';
 import styles from './Textbar.module.css'
+import socket from '../../../socket';
 
 export default function Textbar({ conversation, setConversation, contactId, text, setText, editId, setEditId }) {
     const [formData, setFormData] = useState({ content: '' });
@@ -12,8 +13,10 @@ export default function Textbar({ conversation, setConversation, contactId, text
     };
 
     const submitForm = async (e) => {
+        // Emit socket event for new message - REVIEW
         e.preventDefault();
         if (!editId) {
+            socket.emit('send-message', text);
             sendRequestViaAuth('/contacts/messages', 'POST', { content: text, contactId: contactId})
                 .then((data) => {
                     setConversation([...conversation, data.data])
@@ -27,6 +30,7 @@ export default function Textbar({ conversation, setConversation, contactId, text
                     // inputRef.current.value = "";
                 })    
         } else { // Editing mode
+            socket.emit('edit-message', text, messageId);
             sendRequestViaAuth('/contacts/messages', 'PUT', { content: text, messageId: editId})
                 .then((data) => {
                     // Creates duplicate instead of replacing old
