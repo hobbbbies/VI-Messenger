@@ -1,11 +1,11 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { sendRequestViaAuth } from '../../../helpers/fetchData';
 import styles from './Textbar.module.css'
-import socket from '../../../socket';
+import socketConstructor from '../../../socket';
 
-export default function Textbar({ conversation, setConversation, contactId, text, setText, editId, setEditId }) {
+export default function Textbar({ conversation, setConversation, userId, contactId, text, setText, editId, setEditId }) {
     const [formData, setFormData] = useState({ content: '' });
-    // const inputRef = useRef(null);
+    const socket = useRef(socketConstructor(userId));
 
     const handleChange = (e) => {
         //This causes conversation to rerender on every input.
@@ -16,7 +16,7 @@ export default function Textbar({ conversation, setConversation, contactId, text
         // Emit socket event for new message - REVIEW
         e.preventDefault();
         if (!editId) {
-            socket.emit('send-message', text);
+            socket.current.emit('send-message', text, contactId);
             sendRequestViaAuth('/contacts/messages', 'POST', { content: text, contactId: contactId})
                 .then((data) => {
                     setConversation([...conversation, data.data])
@@ -30,7 +30,7 @@ export default function Textbar({ conversation, setConversation, contactId, text
                     // inputRef.current.value = "";
                 })    
         } else { // Editing mode
-            socket.emit('edit-message', text, messageId);
+            socket.current.emit('edit-message', text, messageId);
             sendRequestViaAuth('/contacts/messages', 'PUT', { content: text, messageId: editId})
                 .then((data) => {
                     // Creates duplicate instead of replacing old

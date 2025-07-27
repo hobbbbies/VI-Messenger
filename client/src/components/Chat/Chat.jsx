@@ -6,11 +6,11 @@ import Message from './Message/Message';
 import Textbar from './Textbar/Textbar';
 import styles from './Chat.module.css';
 import useSocketSetup from '../../useSocketSetup';
-import socket from '../../socket';
+import socketConstructor from '../../socket';
 
 export default function Chat() {
-    useSocketSetup();
     const [user, currentContact] = useOutletContext();
+    useSocketSetup(user?.id);
     const [conversation, setConversation] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -19,15 +19,19 @@ export default function Chat() {
     const [editId, setEditId] = useState(false);
     const [text, setText] = useState("");
 
+    // Incoming messages
     useEffect(() => {
+        const socket = socketConstructor(user?.id);
         socket.on('received-message', (message) => {
             console.log('Adding: ', message.content);
             setConversation(prev => [...prev, message.content]);
         });
+    }, []);
 
+    useEffect(() => {
         console.log('currentContact: ', currentContact?.id);
         // Only if convo is uninitialized, otherwise use websockets
-        if (currentContact?.id && !conversation.length) {
+        if (currentContact?.id) {
             setLoading(true);
             sendRequestViaAuth(`/contacts/${currentContact.id}/messages`)
                 .then(data => {
@@ -81,6 +85,7 @@ export default function Chat() {
                 <Textbar 
                     conversation={conversation} 
                     setConversation={setConversation} 
+                    userId={user?.id}
                     contactId={currentContact?.id} 
                     text={text} 
                     setText={setText}
