@@ -8,17 +8,19 @@ const contactRouter = require("./routes/contactRouter");
 const authRouter = require('./routes/authRouter');
 const cors = require('cors');
 
-// IO websockets for live chat
-const http = require('http');
-const server = http.createServer(app);
-const { Server } = require("socket.io"); 
-
 require('dotenv').config();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use("/api/contacts", contactRouter); 
 app.use('/api/auth', authRouter);
+
+// --socket.io section--
+// IO websockets for live chat
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require("socket.io"); 
+const userSocketMap = new Map();
 
 const io = new Server(server, {
   cors: {
@@ -27,16 +29,19 @@ const io = new Server(server, {
 });
 
 io.on('connection', (socket) => {
-  console.log('A user connected');
-  socket.on('send-message', (message) => {
+  userSocketMap.set(socket.handshake.auth.userId, socket.id);
+  console.log('A user connected on userId: ', socket.handshake.auth.userId);
+  socket.on('send-message', (message, userId) => {
     console.log("User sent a message: ", message);
-    socket.broadcast.emit('received-message', message);
+    const room = userSocketMap.get(userId);
+    console.log("speaking to room ", room);
+    if (!room) {
+      socket.emit('message_error', 'Room not included in message');
+      return;
+    }
+    socket.to(room).emit('received-message', message);
   })
 });
-
-// io.on('message', (socket, message) => {
-//   console.log("User sent a message: ", message);  
-// })
 
 async function main() {
     try {
