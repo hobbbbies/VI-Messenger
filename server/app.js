@@ -18,8 +18,8 @@ app.use('/api/auth', authRouter);
 // --socket.io section--
 // IO websockets for live chat
 const http = require('http');
-const server = http.createServer(app);
 const { Server } = require("socket.io"); 
+const server = http.createServer(app);
 const userSocketMap = new Map();
 
 const io = new Server(server, {
