@@ -1,15 +1,26 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef} from "react"
 import { sendRequestViaAuth } from "../../helpers/fetchData";
 import { useNavigate, useLocation, Outlet } from "react-router-dom";
 import styles from './Header.module.css';
 import Sidebar from "../Sidebar/Sidebar";
+import socketConstructor from '../../socket';
+import useSocketSetup from '../../useSocketSetup';
+import { SocketContext } from '../../context/socketContext';
 
 export default function Header() {
     const [user, setUser] = useState(null)
     const [currentContact, setCurrentContact] = useState(null);
     const navigate = useNavigate();
     const location = useLocation();
-    // const { contactId } = useParams();
+    const socket = useRef(null);
+
+    // Incoming messages
+    useEffect(() => {
+        socket.current = socketConstructor(user?.id)
+    }, [user?.id])
+
+    // Adds essential events to socket
+    useSocketSetup(socket.current);
 
     useEffect(() => {
         sendRequestViaAuth('/auth/user')
@@ -21,8 +32,6 @@ export default function Header() {
             }).finally(() => {
             })
     }, [location, navigate]);
-
-    // if (loading) return <div>Loading contacts...</div>;
 
     return (
         <div className={styles.mainContainer}>
@@ -36,7 +45,9 @@ export default function Header() {
                     </div>
                     <a className={styles.rightSide} href="/login">Change Account</a>
                 </header>
-                <Outlet context={[user, currentContact]}/>
+                <SocketContext.Provider value={socket.current}>
+                    <Outlet context={[user, currentContact]}/>
+                </SocketContext.Provider>
             </div>
         </div>
     )

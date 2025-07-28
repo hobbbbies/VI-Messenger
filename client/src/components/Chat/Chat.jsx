@@ -1,15 +1,15 @@
 import PropTypes from 'prop-types';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { sendRequestViaAuth } from '../../helpers/fetchData';
 import { useOutletContext, useSearchParams } from 'react-router-dom';
 import Message from './Message/Message';
 import Textbar from './Textbar/Textbar';
 import styles from './Chat.module.css';
-import socketConstructor from '../../socket';
-import useSocketSetup from '../../useSocketSetup';
+import { SocketContext } from '../../context/socketContext';
 
 export default function Chat() {
     const [user, currentContact] = useOutletContext();
+    const socket = useContext(SocketContext); // Not using outletContext to avoid prop drilling
     const [conversation, setConversation] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -17,20 +17,30 @@ export default function Chat() {
     const pendingParam = searchParams.get('pending');
     const [editId, setEditId] = useState(false);
     const [text, setText] = useState("");
-    const socket = useRef(null);
-    // Adds essential events to socket
-    useSocketSetup(socket.current);
+
+    /* 
+    Chat renders at first, without user, currentContact, or socket defined yet
+    Then once its defined useEffect here will trigger becasue userId and currentContact changed
+    Maybe socket should be a state 
+    Because socket init could be after currentContact or userID
+    ANYWAYS, useEffect reactivates, and socket.on will be attached theoretically
+    */
 
     // Incoming messages
     useEffect(() => {
-        socket.current = socketConstructor(user?.id)
-        if (socket.current) {
-            socket.current.on('received-message', (message) => {
-                console.log('Adding: ', message.content);
-                setConversation(prev => [...prev, message.content]);
+        // Room for one-to-one private messaging
+        if (socket) {
+            if (user?.id && currentContact?.id) {
+                socket.emit('join_room', { userId: user.id, contactId: currentContact.id });
+            }
+            socket.on('received-message', (message) => {
+                console.log('Adding: ', message);
+                setConversation(prev => [...prev, message]);
             });
+        } else {
+            console.log('socket not initalized');
         }
-    }, [user?.id])
+    }, [socket, user?.id, currentContact?.id]);
 
     useEffect(() => {
         console.log('currentContact: ', currentContact?.id);
@@ -89,7 +99,6 @@ export default function Chat() {
                 <Textbar 
                     conversation={conversation} 
                     setConversation={setConversation} 
-                    userId={user?.id}
                     contactId={currentContact?.id} 
                     text={text} 
                     setText={setText}
