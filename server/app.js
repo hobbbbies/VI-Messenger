@@ -28,26 +28,34 @@ const io = new Server(server, {
   }
 });
 
+const createRoom = (userId) => {
+  const room = userSocketMap.get(userId);
+  console.log("All connections: ", userSocketMap);
+  if (!room) {
+    socket.emit('message_error', 'Room not included in message');
+    return null;
+  }
+  return room
+}
+
 io.on('connection', (socket) => {
   userSocketMap.set(socket.handshake.auth.userId, socket.id);
   console.log('A user connected on userId: ', socket.handshake.auth.userId); 
   socket.on('send-message', (message, userId) => {
     console.log("User sent a message: ", message);
-    const room = userSocketMap.get(userId);
-    console.log("All connections: ", userSocketMap);
-    if (!room) {
-      socket.emit('message_error', 'Room not included in message');
-      return;
-    }
+    const room = createRoom(userId);
+    if (!room) return;
     socket.to(room).emit('received-message', message);
   })
   socket.on("edit-message", (message, userId, editId) => { 
-    const room = userSocketMap.get(userId);
-    if (!room) {
-      socket.emit('message_error', 'Room / userId not included in message');
-      return;
-    }
+    const room = createRoom(userId);
+    if (!room) return;
     socket.to(room).emit('received-edit', message, editId);
+  });
+  socket.on("delete-message", (message, userId) => {
+    const room = createRoom(userId);
+    if(!room) return;
+    socket.to(room).emit('received-delete', message);
   });
 });
 

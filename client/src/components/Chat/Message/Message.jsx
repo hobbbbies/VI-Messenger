@@ -1,14 +1,17 @@
 import PropTypes from 'prop-types';
 import { sendRequestViaAuth } from '../../../helpers/fetchData';
-import { useRef } from 'react';
+import { useRef, useContext } from 'react';
 import styles from './Message.module.css'
+import { SocketContext } from '../../../context/socketContext';
 
-export default function Message({ message, conversation, setConversation, setText, editId, setEditId, userId }) {
+export default function Message({ message, conversation, setConversation, setText, editId, setEditId, userId, contactId }) {
     const dateRef = useRef(new Date(message.createdAt));
+    const socket = useContext(SocketContext);
 
     const deleteMessage = () => {
         sendRequestViaAuth('/contacts/messages', 'DELETE', { messageId: message.id })
             .then(data => {
+                socket.emit('delete-message', { message: data.data }, contactId);
                 const newConversation = conversation.filter((convoMessage) => {
                     return convoMessage.id !== data.data.id;
                 })

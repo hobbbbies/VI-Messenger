@@ -29,11 +29,15 @@ export default function Chat() {
 
             socket.on('received-edit', (message, editId) => {
                 setConversation(prev => prev.map(currentMessage => {if (currentMessage.id === editId) {return message.message} return currentMessage}))
-            })
+            });
+            socket.on('received-delete', (message) => {
+                setConversation(prev => prev.filter(currentMessage => (currentMessage.id !== message.message.id)))
+            });
 
             return () => {
                 socket.off('received-message');
                 socket.off('received-edit');
+                socket.off('received-delete');
             }
         } else {
             console.log('socket not initalized');
@@ -89,7 +93,8 @@ export default function Chat() {
                                 setText={setText}
                                 editId={editId}
                                 setEditId={setEditId}
-                                userId={user.id}
+                                userId={user?.id}
+                                contactId={currentContact?.id}
                             />
                         </div>
                     ))}
