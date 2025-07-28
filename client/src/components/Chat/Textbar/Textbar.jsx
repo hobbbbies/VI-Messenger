@@ -2,10 +2,12 @@ import { useState, useRef } from 'react'
 import { sendRequestViaAuth } from '../../../helpers/fetchData';
 import styles from './Textbar.module.css'
 import socketConstructor from '../../../socket';
+import useSocketSetup from '../../../useSocketSetup';
 
 export default function Textbar({ conversation, setConversation, userId, contactId, text, setText, editId, setEditId }) {
     const [formData, setFormData] = useState({ content: '' });
     const socket = useRef(socketConstructor(userId));
+    useSocketSetup(socket.current);
 
     const handleChange = (e) => {
         //This causes conversation to rerender on every input.

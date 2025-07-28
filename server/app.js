@@ -34,6 +34,8 @@ io.on('connection', (socket) => {
   socket.on('send-message', (message, userId) => {
     console.log("User sent a message: ", message);
     const room = userSocketMap.get(userId);
+    console.log("All connections: ", userSocketMap);
+    console.log('passedId: ', userId);
     console.log("speaking to room ", room);
     if (!room) {
       socket.emit('message_error', 'Room not included in message');

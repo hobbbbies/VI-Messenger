@@ -1,11 +1,13 @@
 import { useEffect } from 'react'
-import socketConstructor from './socket'
 
-export default function useSocketSetup(userId) {
+export default function useSocketSetup(socket) {
     useEffect(() => {
-        if (!userId) return;
-        const socket = socketConstructor(userId);
+        if (!socket) return;
         socket.connect();
+        
+        socket.on('connect', () => {
+            socket.emit('message', 'Testing...');
+        });
         socket.onAny((event, ...args) => {
             console.log(event, args);
         });
@@ -15,12 +17,9 @@ export default function useSocketSetup(userId) {
         socket.on('message_error', (message) => {
             console.error(message);
         })
-        socket.on('connect', () => {
-            socket.emit('message', 'Testing...');
-        });
+
         return () => {
-            socket.off('connect');
-            socket.off('connect_error');
+            socket.disconnect();
         }
-    }, []);
+    }, [socket]);
 }

@@ -1,16 +1,15 @@
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { sendRequestViaAuth } from '../../helpers/fetchData';
 import { useOutletContext, useSearchParams } from 'react-router-dom';
 import Message from './Message/Message';
 import Textbar from './Textbar/Textbar';
 import styles from './Chat.module.css';
-import useSocketSetup from '../../useSocketSetup';
 import socketConstructor from '../../socket';
+import useSocketSetup from '../../useSocketSetup';
 
 export default function Chat() {
     const [user, currentContact] = useOutletContext();
-    useSocketSetup(user?.id);
     const [conversation, setConversation] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -18,11 +17,18 @@ export default function Chat() {
     const pendingParam = searchParams.get('pending');
     const [editId, setEditId] = useState(false);
     const [text, setText] = useState("");
+    const socket = useRef(null);
+    console.log("UserID: ", user?.id);
+    // Adds essential events to socket
+    useSocketSetup(socket.current);
 
     // Incoming messages
     useEffect(() => {
-        const socket = socketConstructor(user?.id);
-        socket.on('received-message', (message) => {
+        socket.current = socketConstructor(user?.id);
+    }, [user?.id])
+
+    useEffect(() => {
+        socket.current?.on('received-message', (message) => {
             console.log('Adding: ', message.content);
             setConversation(prev => [...prev, message.content]);
         });
