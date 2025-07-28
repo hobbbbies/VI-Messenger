@@ -63,10 +63,10 @@ export default function Login() {
             
                 <button type="submit">Login</button>
                 <Link to="/Register">Don't Have an Account? Register Now</Link>
-                <p>Or Use one of these demo accounts: 
+                <div>Or Use one of these demo accounts: 
                     <DemoLogin demoEmail={"demo@test.com"} demoPassword={"demo123"} demoUsername={"John Doe"}/>,  
                     <DemoLogin demoEmail={"demo3@test.com"} demoPassword={"demo789"} demoUsername={"Joe Brown"}/>
-                </p>
+                </div>
             </form>
         </div>
     );

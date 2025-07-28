@@ -31,12 +31,10 @@ export default function Chat() {
         // Room for one-to-one private messaging
         if (socket) {
             socket.on('received-message', (message) => {
-                console.log('Adding: ', message.message);
                 setConversation(prev => [...prev, message.message]);
             });
 
             socket.on('received-edit', (message, editId) => {
-                console.log('receiving edit: ', message.message);
                 setConversation(prev => prev.map(currentMessage => {if (currentMessage.id === editId) {return message.message} return currentMessage}))
             });
             socket.on('received-delete', (message) => {
@@ -48,9 +46,7 @@ export default function Chat() {
                 socket.off('received-edit');
                 socket.off('received-delete');
             }
-        } else {
-            console.log('socket not initalized');
-        }
+        } 
     }, [socket, user?.id, currentContact?.id]);
 
     useEffect(() => {

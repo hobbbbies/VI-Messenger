@@ -24,7 +24,7 @@ const userSocketMap = new Map(); // Might want to verify passed userId's with JW
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173"
+    origin: process.env.CLIENT_URL || 'http://localhost:5173'
   }
 });
 
@@ -49,8 +49,6 @@ io.on('connection', (socket) => {
   })
   socket.on("edit-message", (message, userId, editId) => { 
     const room = createRoom(userId);
-    console.log("EDITING: ", message.message);
-    console.log("editId: ", editId);
     if (!room) return;
     socket.to(room).emit('received-edit', message, editId);
   });
