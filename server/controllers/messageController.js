@@ -179,6 +179,17 @@ const deleteMessage = async (req, res) => {
       deleted: true,
       user: { username: message.user.username, id: message.userId }
     }
+
+    const newMessage = await prisma.message.create({
+      data: {
+        id: messageId,
+        content: `${message.user.username} deleted a message`,
+        createdAt: message.createdAt,
+        contactId: message.contactId,
+        userId: message.userId,      
+      },
+      include: { user: true }
+    })
     
     res.status(200).json({
       success: true,
