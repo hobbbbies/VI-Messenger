@@ -146,6 +146,7 @@ const deleteMessage = async (req, res) => {
 
     const message = await prisma.message.findUnique({
       where: { id: messageId },
+      include: { user: true }
     });
 
     if (!message) {
@@ -166,9 +167,22 @@ const deleteMessage = async (req, res) => {
         id: messageId,
       },
     });
+
+    // Deleted message placeholder
+    console.log('old message: ', message);
+    const newMessage = {
+      id: messageId,
+      content: `${message.user.username} deleted a message`,
+      createdAt: message.createdAt,
+      contactId: message.contactId,
+      userId: message.userId,
+      deleted: true,
+      user: { username: message.user.username, id: message.userId }
+    }
+    
     res.status(200).json({
       success: true,
-      data: deleteMessage,
+      data: {oldMessage: deleteMessage, newMessage},
     });
   } catch (error) {
     console.error("Error deleting message: ", error);

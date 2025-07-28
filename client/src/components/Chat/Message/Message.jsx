@@ -11,9 +11,13 @@ export default function Message({ message, conversation, setConversation, setTex
     const deleteMessage = () => {
         sendRequestViaAuth('/contacts/messages', 'DELETE', { messageId: message.id })
             .then(data => {
-                socket.emit('delete-message', { message: data.data }, contactId);
-                const newConversation = conversation.filter((convoMessage) => {
-                    return convoMessage.id !== data.data.id;
+                console.log("new message: ", data.data.oldMessage);
+                // socket.emit('delete-message', { message: data.data }, contactId);
+                const newConversation = conversation.map((convoMessage) => {
+                    if (convoMessage.id === data.data.oldMessage.id) {
+                        return data.data.newMessage;
+                    }
+                    return convoMessage;
                 })
                 setConversation(newConversation);
             }).catch(error => {
