@@ -30,9 +30,9 @@ export default function Textbar({ conversation, setConversation, contactId, text
                     // inputRef.current.value = "";
                 })    
         } else { // Editing mode
-            socket.emit('edit-message', text, editId);
             sendRequestViaAuth('/contacts/messages', 'PUT', { content: text, messageId: editId})
                 .then((data) => {
+                    socket.emit('edit-message', { message: data.data }, contactId, editId);
                     // Creates duplicate instead of replacing old
                     const updatedArray = conversation.map((message) => {
                            if (message.id === editId) {

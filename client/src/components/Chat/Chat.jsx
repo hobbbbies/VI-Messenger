@@ -27,8 +27,13 @@ export default function Chat() {
                 setConversation(prev => [...prev, message.message]);
             });
 
+            socket.on('received-edit', (message, editId) => {
+                setConversation(prev => prev.map(currentMessage => {if (currentMessage.id === editId) {return message.message} return currentMessage}))
+            })
+
             return () => {
                 socket.off('received-message');
+                socket.off('received-edit');
             }
         } else {
             console.log('socket not initalized');

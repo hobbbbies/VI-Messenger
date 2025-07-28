@@ -20,7 +20,7 @@ app.use('/api/auth', authRouter);
 const http = require('http');
 const { Server } = require("socket.io"); 
 const server = http.createServer(app);
-const userSocketMap = new Map();
+const userSocketMap = new Map(); // Might want to verify passed userId's with JWT tokens 
 
 const io = new Server(server, {
   cors: {
@@ -30,19 +30,25 @@ const io = new Server(server, {
 
 io.on('connection', (socket) => {
   userSocketMap.set(socket.handshake.auth.userId, socket.id);
-  console.log('A user connected on userId: ', socket.handshake.auth.userId);
+  console.log('A user connected on userId: ', socket.handshake.auth.userId); 
   socket.on('send-message', (message, userId) => {
     console.log("User sent a message: ", message);
     const room = userSocketMap.get(userId);
     console.log("All connections: ", userSocketMap);
-    console.log('passedId: ', userId);
-    console.log("speaking to room ", room);
     if (!room) {
       socket.emit('message_error', 'Room not included in message');
       return;
     }
     socket.to(room).emit('received-message', message);
   })
+  socket.on("edit-message", (message, userId, editId) => { 
+    const room = userSocketMap.get(userId);
+    if (!room) {
+      socket.emit('message_error', 'Room / userId not included in message');
+      return;
+    }
+    socket.to(room).emit('received-edit', message, editId);
+  });
 });
 
 async function main() {
