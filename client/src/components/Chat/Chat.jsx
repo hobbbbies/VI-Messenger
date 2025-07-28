@@ -18,25 +18,18 @@ export default function Chat() {
     const [editId, setEditId] = useState(false);
     const [text, setText] = useState("");
 
-    /* 
-    Chat renders at first, without user, currentContact, or socket defined yet
-    Then once its defined useEffect here will trigger becasue userId and currentContact changed
-    Maybe socket should be a state 
-    Because socket init could be after currentContact or userID
-    ANYWAYS, useEffect reactivates, and socket.on will be attached theoretically
-    */
-
     // Incoming messages
     useEffect(() => {
         // Room for one-to-one private messaging
         if (socket) {
-            if (user?.id && currentContact?.id) {
-                socket.emit('join_room', { userId: user.id, contactId: currentContact.id });
-            }
             socket.on('received-message', (message) => {
                 console.log('Adding: ', message.message);
                 setConversation(prev => [...prev, message.message]);
             });
+
+            return () => {
+                socket.off('received-message');
+            }
         } else {
             console.log('socket not initalized');
         }

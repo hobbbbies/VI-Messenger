@@ -6,7 +6,6 @@ export default function useSocketSetup(socket) {
         socket.connect();
         
         socket.on('connect', () => {
-            socket.emit('message', 'Testing...');
             console.log('socket: ', socket);
             console.log("Socket ID:", socket.id);
         });
