@@ -24,18 +24,12 @@ export default function Chat() {
     // Incoming messages
     useEffect(() => {
         socket.current = socketConstructor(user?.id)
-            .then(() => {
-                if (socket.current) {
-                    console.log('socket: ', socket.current);
-                    console.log("Socket ID:", socket.current.id);
-                    socket.current.on('received-message', (message) => {
-                        console.log('Adding: ', message.content);
-                        setConversation(prev => [...prev, message.content]);
-                    });
-                }
-            }).catch(err => {
-                console.error("Error initalizing socket, ", err);
+        if (socket.current) {
+            socket.current.on('received-message', (message) => {
+                console.log('Adding: ', message.content);
+                setConversation(prev => [...prev, message.content]);
             });
+        }
     }, [user?.id])
 
     useEffect(() => {

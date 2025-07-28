@@ -7,6 +7,8 @@ export default function useSocketSetup(socket) {
         
         socket.on('connect', () => {
             socket.emit('message', 'Testing...');
+            console.log('socket: ', socket);
+            console.log("Socket ID:", socket.id);
         });
         socket.onAny((event, ...args) => {
             console.log(event, args);
@@ -17,7 +19,6 @@ export default function useSocketSetup(socket) {
         socket.on('message_error', (message) => {
             console.error(message);
         })
-
         return () => {
             socket.disconnect();
         }
