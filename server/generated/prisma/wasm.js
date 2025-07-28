@@ -134,7 +134,8 @@ exports.Prisma.MessageScalarFieldEnum = {
   createdAt: 'createdAt',
   contactId: 'contactId',
   userId: 'userId',
-  edited: 'edited'
+  edited: 'edited',
+  deleted: 'deleted'
 };
 
 exports.Prisma.SortOrder = {

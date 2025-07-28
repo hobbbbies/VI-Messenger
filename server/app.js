@@ -49,6 +49,8 @@ io.on('connection', (socket) => {
   })
   socket.on("edit-message", (message, userId, editId) => { 
     const room = createRoom(userId);
+    console.log("EDITING: ", message.message);
+    console.log("editId: ", editId);
     if (!room) return;
     socket.to(room).emit('received-edit', message, editId);
   });

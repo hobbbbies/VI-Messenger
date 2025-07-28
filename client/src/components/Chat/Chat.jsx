@@ -7,6 +7,8 @@ import Textbar from './Textbar/Textbar';
 import styles from './Chat.module.css';
 import { SocketContext } from '../../context/socketContext';
 
+const blacklist = [5, 6]; // John Doe and Jane Doe conversation is read ONLY (DEMO PURPOSES);
+
 export default function Chat() {
     const [user, currentContact] = useOutletContext();
     const socket = useContext(SocketContext); // Not using outletContext to avoid prop drilling
@@ -17,6 +19,12 @@ export default function Chat() {
     const pendingParam = searchParams.get('pending');
     const [editId, setEditId] = useState(false);
     const [text, setText] = useState("");
+    const [readOnly, setReadOnly] = useState(false);
+
+    useEffect(() => {
+        if (blacklist.includes(user?.id) && blacklist.includes(currentContact?.id)) setReadOnly(true);
+        else setReadOnly(false);
+    }, [user, currentContact]);
 
     // Incoming messages
     useEffect(() => {
@@ -28,6 +36,7 @@ export default function Chat() {
             });
 
             socket.on('received-edit', (message, editId) => {
+                console.log('receiving edit: ', message.message);
                 setConversation(prev => prev.map(currentMessage => {if (currentMessage.id === editId) {return message.message} return currentMessage}))
             });
             socket.on('received-delete', (message) => {
@@ -45,7 +54,7 @@ export default function Chat() {
     }, [socket, user?.id, currentContact?.id]);
 
     useEffect(() => {
-        console.log('currentContact: ', currentContact?.id);
+        setText("");
         // Only if convo is uninitialized, otherwise use websockets
         if (currentContact?.id) {
             setLoading(true);
@@ -107,6 +116,7 @@ export default function Chat() {
                     setText={setText}
                     editId={editId}
                     setEditId={setEditId}
+                    readOnly={readOnly}
                 />
             </div>
         </div>

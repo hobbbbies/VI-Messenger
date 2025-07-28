@@ -39,6 +39,7 @@ model Message {
   contactId Int
   userId    Int
   edited    Boolean @default(false)
+  deleted   Boolean @default(false)
 
   user    User @relation("SentMessages", fields: [userId], references: [id])
   contact User @relation("ReceivedMessages", fields: [contactId], references: [id])

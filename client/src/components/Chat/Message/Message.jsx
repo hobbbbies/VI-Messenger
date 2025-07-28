@@ -9,13 +9,13 @@ export default function Message({ message, conversation, setConversation, setTex
     const socket = useContext(SocketContext);
 
     const deleteMessage = () => {
-        sendRequestViaAuth('/contacts/messages', 'DELETE', { messageId: message.id })
+        sendRequestViaAuth('/contacts/messages', 'PUT', { deleted: true, messageId: message.id, content: `${message.user.username} deleted a message` })
             .then(data => {
-                console.log("new message: ", data.data.oldMessage);
-                // socket.emit('delete-message', { message: data.data }, contactId);
+                console.log('data.data: ', data.data);
+                socket.emit('edit-message', { message: data.data }, contactId, data.data.id);  
                 const newConversation = conversation.map((convoMessage) => {
-                    if (convoMessage.id === data.data.oldMessage.id) {
-                        return data.data.newMessage;
+                    if (convoMessage.id === message.id) {
+                        return data.data
                     }
                     return convoMessage;
                 })
@@ -33,6 +33,17 @@ export default function Message({ message, conversation, setConversation, setTex
     const stopEditing = () => {
         setEditId(null);
         setText('');
+    }
+
+    if (message.deleted) {
+        return (
+            <>
+            <small className={styles.date}>{dateRef.current.getMonth()}/{dateRef.current.getDate()} {dateRef.current.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</small>
+            <div className={styles.deletedMessage}>
+                <p><i>{message.content}</i></p>
+            </div>
+            </>
+        )
     }
 
     return (

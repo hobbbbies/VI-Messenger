@@ -3,7 +3,7 @@ import { sendRequestViaAuth } from '../../../helpers/fetchData';
 import styles from './Textbar.module.css'
 import { SocketContext } from '../../../context/socketContext';
 
-export default function Textbar({ conversation, setConversation, contactId, text, setText, editId, setEditId }) {
+export default function Textbar({ conversation, setConversation, contactId, text, setText, editId, setEditId, readOnly }) {
     const [formData, setFormData] = useState({ content: '' });
     const socket = useContext(SocketContext); 
 
@@ -58,9 +58,10 @@ export default function Textbar({ conversation, setConversation, contactId, text
         name="content"
         // ref={inputRef}
         value={text}
-        placeholder="Type your message here..."
+        placeholder={readOnly ?  "This conversation is read only for demo purposes" : "Type your message here..."}
+        disabled={readOnly}
       />
-      <button type="submit" className={styles.submitButton}>Send</button>
+      <button type="submit" className={styles.submitButton} disabled={readOnly}>Send</button>
     </form>
   );
 }

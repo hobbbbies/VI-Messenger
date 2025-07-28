@@ -93,7 +93,7 @@ const createMessage = async (req, res) => {
 // @route   PUT /api/contacts/contactId
 const updateMessage = async (req, res) => {
   try {
-    const { content } = req.body;
+    const { content, deleted } = req.body;
     const messageId = parseInt(req.body.messageId);
     const userId = parseInt(req.user.id);
     const message = await prisma.message.findUnique({
@@ -119,7 +119,8 @@ const updateMessage = async (req, res) => {
       },
       data: {
         content: content,
-        edited: true
+        edited: true,
+        deleted,
       },
       include: { user: true },
     });
@@ -167,33 +168,10 @@ const deleteMessage = async (req, res) => {
         id: messageId,
       },
     });
-
-    // Deleted message placeholder
-    console.log('old message: ', message);
-    const newMessage = {
-      id: messageId,
-      content: `${message.user.username} deleted a message`,
-      createdAt: message.createdAt,
-      contactId: message.contactId,
-      userId: message.userId,
-      deleted: true,
-      user: { username: message.user.username, id: message.userId }
-    }
-
-    const newMessage = await prisma.message.create({
-      data: {
-        id: messageId,
-        content: `${message.user.username} deleted a message`,
-        createdAt: message.createdAt,
-        contactId: message.contactId,
-        userId: message.userId,      
-      },
-      include: { user: true }
-    })
     
     res.status(200).json({
       success: true,
-      data: {oldMessage: deleteMessage, newMessage},
+      data: deleteMessage
     });
   } catch (error) {
     console.error("Error deleting message: ", error);
