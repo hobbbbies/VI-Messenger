@@ -16,10 +16,10 @@ export default function Textbar({ conversation, setConversation, contactId, text
         // Emit socket event for new message - REVIEW
         e.preventDefault();
         if (!editId) {
-            socket.emit('send-message', text, contactId);
             sendRequestViaAuth('/contacts/messages', 'POST', { content: text, contactId: contactId})
                 .then((data) => {
                     setConversation([...conversation, data.data])
+                    socket.emit('send-message', { message: data.data }, contactId);
                     setFormData({ content: '' }); // Clear form
                 })
                 .catch(error => {

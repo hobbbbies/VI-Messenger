@@ -34,8 +34,8 @@ export default function Chat() {
                 socket.emit('join_room', { userId: user.id, contactId: currentContact.id });
             }
             socket.on('received-message', (message) => {
-                console.log('Adding: ', message);
-                setConversation(prev => [...prev, message]);
+                console.log('Adding: ', message.message);
+                setConversation(prev => [...prev, message.message]);
             });
         } else {
             console.log('socket not initalized');
