@@ -12,7 +12,8 @@ export default function useSocketSetup(socket) {
         socket.onAny((event, ...args) => {
             console.log(event, args);
         });
-        socket.on('connect_error', () => {
+        socket.on('connect_error', (error) => {
+            console.error("Socket connect error due to ", error);
             localStorage.removeItem('token');
         })
         socket.on('message_error', (message) => {

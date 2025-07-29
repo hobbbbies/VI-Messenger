@@ -1,7 +1,7 @@
 // app.js
 const express = require("express");
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 const { PrismaClient } = require('./generated/prisma')
 const prisma = new PrismaClient()
 const contactRouter = require("./routes/contactRouter");
@@ -62,7 +62,7 @@ io.on('connection', (socket) => {
 async function main() {
     try {
         server.listen(PORT, () => {
-            console.log("Listening on 3000");
+            console.log("Listening on 8080");
         });
     } catch(err) {
         console.error("Failed to start server");
