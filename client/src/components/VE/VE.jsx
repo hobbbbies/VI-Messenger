@@ -48,8 +48,8 @@ export default function VE() {
   return (
     <>
     <button className={styles.videoButton} onClick={handleVideo}>{isStarted ? <span>End Video</span> : <span>Start Video</span>}</button>
-    <div className={styles.veContainer} id='video-container'>
-        <div className={styles.videoDiv}></div>
+    <div className={styles.veContainer}>
+        <div  id='video-container' className={styles.videoDiv}></div>
     </div>
     </>
   )

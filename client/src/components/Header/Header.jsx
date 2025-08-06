@@ -36,6 +36,7 @@ export default function Header() {
     }, [location, navigate]);
 
     return (
+        <>
         <div className={styles.mainContainer}>
             <Sidebar setCurrentContact={setCurrentContact}/>
             <div className={styles.chatSection}>
@@ -47,7 +48,6 @@ export default function Header() {
                         <small className={styles.email}>{currentContact?.email}</small>
                     </div>
                     <div className={styles.rightSide}>
-                        <VE />
                         <a href="/login">Change Account</a>
                     </div>
                 </header>
@@ -56,5 +56,7 @@ export default function Header() {
                 </SocketContext.Provider>
             </div>
         </div>
+        <VE />
+        </>
     )
 }
