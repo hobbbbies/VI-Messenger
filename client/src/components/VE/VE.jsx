@@ -7,7 +7,7 @@ export default function VE() {
   const [isMounted, setIsMounted] = useState(false); 
   const [isStarted, setIsStarted] = useState(false);
 
-  // Initialize videoEngager to window object 
+  // Initialize videoEngager to ref 
   useEffect(() => {
     setIsMounted(true);
     (async () => {
@@ -22,8 +22,6 @@ export default function VE() {
         }
       });
     })();
-
-    return setIsMounted(true);
   }, [])
 
   const handleVideo = async () => {
