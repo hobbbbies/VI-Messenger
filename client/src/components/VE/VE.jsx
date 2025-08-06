@@ -3,6 +3,7 @@ import styles from './VE.module.css'
 
 export default function VE() {
   const veAgentRef = useRef(null); 
+  const containerRef = useRef(null);
   const [isMounted, setIsMounted] = useState(false); 
   const [isStarted, setIsStarted] = useState(false);
 
@@ -29,6 +30,7 @@ export default function VE() {
     // Can add contactId - Why though?
       if (!isStarted) {
         try {
+          addContainer();
           await veAgentRef.current.call();
           setIsStarted(true);
         } catch (error) {
@@ -42,14 +44,19 @@ export default function VE() {
           console.error('Error ending call:', error);
         }
       }
-
   }
+
+  const addContainer = () => {
+    const newDiv = document.createElement('div');
+      newDiv.setAttribute('id', 'video-container');
+      containerRef.current.appendChild(newDiv);  
+  }
+
   // Use veAgentRef.current to interact with the SDK
   return (
     <>
     <button className={styles.videoButton} onClick={handleVideo}>{isStarted ? <span>End Video</span> : <span>Start Video</span>}</button>
-    <div className={styles.veContainer}>
-        <div  id='video-container' className={styles.videoDiv}></div>
+    <div ref={containerRef} className={styles.veContainer}>
     </div>
     </>
   )
