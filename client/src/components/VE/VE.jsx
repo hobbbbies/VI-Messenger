@@ -29,7 +29,7 @@ export default function VE() {
     // Can add contactId - Why though?
       if (!isStarted) {
         try {
-          await veAgentRef.current.VideoEngagerAgent.call();
+          await veAgentRef.current.call();
           setIsStarted(true);
         } catch (error) {
           console.error('Error starting call:', error);
@@ -37,7 +37,7 @@ export default function VE() {
       } else {
         try {
           setIsStarted(false);
-          await veAgentRef.current.VideoEngagerAgent.endCall();
+          await veAgentRef.current.endCall();
         } catch (error) {
           console.error('Error ending call:', error);
         }
