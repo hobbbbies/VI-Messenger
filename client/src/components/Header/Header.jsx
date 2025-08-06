@@ -6,6 +6,8 @@ import Sidebar from "../Sidebar/Sidebar";
 import socketConstructor from '../../socket';
 import useSocketSetup from '../../useSocketSetup';
 import { SocketContext } from '../../context/socketContext';
+import NotificationPopup from "../NotificationPopup.jsx/NotificationPopup";
+import VE from "../VE/VE";
 
 export default function Header() {
     const [user, setUser] = useState(null)
@@ -37,13 +39,17 @@ export default function Header() {
         <div className={styles.mainContainer}>
             <Sidebar setCurrentContact={setCurrentContact}/>
             <div className={styles.chatSection}>
+                <NotificationPopup />
                 <header className={styles.header}>
                     <div className={styles.userSection}>
                         <div className={styles.icon}></div>
                         <strong className={styles.chattingWith}>{currentContact?.username}</strong>
                         <small className={styles.email}>{currentContact?.email}</small>
                     </div>
-                    <a className={styles.rightSide} href="/login">Change Account</a>
+                    <div className={styles.rightSide}>
+                        <VE />
+                        <a href="/login">Change Account</a>
+                    </div>
                 </header>
                 <SocketContext.Provider value={socket.current}>
                     <Outlet context={[user, currentContact]}/>

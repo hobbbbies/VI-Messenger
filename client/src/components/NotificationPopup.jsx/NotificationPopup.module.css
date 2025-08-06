@@ -1,0 +1,46 @@
+.popup {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  background-color: white;
+  border: 1px solid #d1d5db;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 1rem;
+  z-index: 9999;
+  max-width: 300px;
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+}
+
+.text {
+  flex: 1;
+}
+
+.title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.message {
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+.close {
+  background: none;
+  border: none;
+  color: #6b7280;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-left: 0.5rem;
+}
+
+.close:hover {
+  color: #111827;
+}
