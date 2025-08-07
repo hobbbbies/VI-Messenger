@@ -25,7 +25,7 @@ export default function VE() {
   }, [])
 
   const handleVideo = async () => {
-    // Can add contactId - Why though?
+    // Can add contactId from currentContact
       if (!isStarted) {
         try {
           addContainer();
