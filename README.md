@@ -13,9 +13,6 @@ VI-Messenger is a real-time, full-stack chat application designed for fast and i
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
-- [Usage](#usage)
-- [License](#license)
-- [Contact](#contact)
 
 ---
 
