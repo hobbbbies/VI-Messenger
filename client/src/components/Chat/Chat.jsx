@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext, useRef } from 'react';
 import { sendRequestViaAuth } from '../../helpers/fetchData';
 import { useOutletContext, useSearchParams } from 'react-router-dom';
 import Message from './Message/Message';
@@ -20,11 +20,21 @@ export default function Chat() {
     const [editId, setEditId] = useState(false);
     const [text, setText] = useState("");
     const [readOnly, setReadOnly] = useState(false);
+    const messagesEndRef = useRef(null);
 
     useEffect(() => {
         if (blacklist.includes(user?.id) && blacklist.includes(currentContact?.id)) setReadOnly(true);
         else setReadOnly(false);
     }, [user, currentContact]);
+
+    // Auto-scroll to bottom when conversation changes
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [conversation]);
 
     // Incoming messages
     useEffect(() => {
@@ -103,6 +113,7 @@ export default function Chat() {
                             />
                         </div>
                     ))}
+                    <div ref={messagesEndRef} />
                 </div>
                 <Textbar 
                     conversation={conversation} 

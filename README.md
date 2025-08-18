@@ -79,14 +79,21 @@ Make sure you have the following installed on your machine:
 3.  **Set up Environment Variables:**
     Create a `.env` file in the `server` directory and add the following, replacing the placeholder values:
     ```env
-    # Example for PostgreSQL
-    DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=public"
+    # A general-purpose secret key for the application (e.g., for sessions)
+    SECRET="YOUR_RANDOM_APP_SECRET"
 
-    # Secret for signing JWTs
-    JWT_SECRET="YOUR_SUPER_SECRET_KEY"
+    # Secret key for signing and verifying JSON Web Tokens (JWTs)
+    JWT_SECRET_KEY="YOUR_UNIQUE_JWT_SECRET"
 
-    # Server Port
-    PORT=5000
+    # Full connection URL for your Prisma-compatible database
+    # Example Format: "postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=public"
+    DATABASE_URL="YOUR_DATABASE_CONNECTION_STRING"
+
+    # The base URL of your frontend React application for CORS
+    CLIENT_URL="http://localhost:5173"
+
+    # The port your Express backend server will run on
+    PORT="8080"
     ```
 
 4.  **Set up the Database:**
@@ -113,30 +120,18 @@ Make sure you have the following installed on your machine:
 1.  **Start the Backend Server:**
     From the `server` directory:
     ```sh
-    npm start
+    node app.js
     ```
-    Your Express API should now be running on `http://localhost:5000` (or the port you specified).
+    Your Express API should now be running on `http://localhost:8080` (or the port you specified).
 
 2.  **Start the Frontend Development Server:**
     From the `client` directory:
     ```sh
-    npm start
+    npm run dev
     ```
-    The React application will open and run on `http://localhost:3000`.
+    The React application will open and run on `http://localhost:5173`.
 
 3.  **Test the Application:**
-    Open your browser to `http://localhost:3000`. You can create your own account or use the two demo accounts provided on the login screen to explore the chat features.
+    Open your browser to `http://localhost:5173`. You can create your own account or use the two demo accounts provided on the login screen to explore the chat features.
 
 ---
-
-## 📝 License
-
-Distributed under the MIT License. See `LICENSE` for more information.
-
----
-
-## 📧 Contact
-
-Your Name - [your.email@example.com](mailto:your.email@example.com)
-
-Project Link: [https://github.com/your-username/vi-messenger](https://github.com/your-username/vi-messenger)
