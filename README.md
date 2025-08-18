@@ -1,194 +1,142 @@
 # VI-Messenger 💬
 
-A fully operational real-time chat messaging system built with modern web technologies. VI-Messenger combines WebSockets with a REST API to deliver a fast, interactive chat experience with seamless live updates.
+VI-Messenger is a real-time, full-stack chat application designed for fast and interactive messaging. It leverages WebSockets to provide a seamless live chat experience, allowing users to communicate instantly without needing to refresh the page.
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![React](https://img.shields.io/badge/React-18.x-blue.svg)
-![Node.js](https://img.shields.io/badge/Node.js-18.x-green.svg)
-![Socket.IO](https://img.shields.io/badge/Socket.IO-4.x-black.svg)
+![Live Demo GIF](https://your-gif-url-here.com/demo.gif) ## 📜 Table of Contents
 
-## ✨ Features
+- [About The Project](#about-the-project)
+- [✨ Key Features](#-key-features)
+- [🛠️ Built With](#️-built-with)
+- [🚀 Getting Started](#-getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [⚙️ Usage](#️-usage)
+- [📝 License](#-license)
+- [📧 Contact](#-contact)
 
-- **Real-time Messaging**: Instant message delivery using WebSockets
-- **User Authentication**: Secure sign-up and login system
-- **Contact Management**: Add contacts by email with accept/deny functionality
-- **Live Message Editing**: Edit messages in real-time
-- **Message Deletion**: Remove messages with live updates
-- **Responsive Design**: Works seamlessly across desktop and mobile devices
-- **Demo Accounts**: Test the app instantly with pre-configured demo users
+---
 
-## 🚀 Tech Stack
+## About The Project
 
-### Frontend
-- **React** - Modern UI library for building interactive interfaces
-- **React Router** - Client-side routing
-- **CSS Modules** - Scoped styling
-- **Socket.IO Client** - Real-time communication
+VI-Messenger provides a complete chat solution, from user authentication to real-time message synchronization. The application features a **React** frontend for a dynamic user interface and an **Express.js** backend that serves a REST API. **Prisma ORM** is used for robust database management, while **WebSockets** form the core of the live messaging functionality, ensuring instant delivery and updates for messages, edits, and deletions.
 
-### Backend
-- **Node.js** - JavaScript runtime
-- **Express.js** - Web application framework
-- **Socket.IO** - Real-time bidirectional communication
-- **Prisma ORM** - Type-safe database access
-- **bcrypt** - Password hashing
-- **JWT** - Secure authentication tokens
+---
 
-### Database
-- **PostgreSQL** - Robust relational database
+## ✨ Key Features
 
-## 📋 Prerequisites
+* **User Authentication:** Secure sign-up and login for users with their email.
+* **Contact Management:** Add other users as contacts via email and manage incoming requests by accepting or denying them.
+* **Real-Time Messaging:** Instant message sending and receiving powered by WebSockets.
+* **Live Message Editing:** Edit your sent messages on the fly, with changes reflected instantly for all participants.
+* **Live Message Deletion:** Delete messages, and they will disappear from the conversation in real-time.
+* **Seamless UI:** No page refreshes needed for any action, providing a smooth and modern user experience.
+* **Demo Accounts:** Two pre-configured demo accounts are available on the login screen for easy testing and showcasing.
 
-Before running this application, make sure you have:
+---
 
-- Node.js (v18.x or higher)
-- npm or yarn package manager
-- PostgreSQL database
+## 🛠️ Built With
 
-## 🛠️ Installation
+This project was built using the following technologies:
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/hobbbbies/VI-Messenger.git
-   cd VI-Messenger
-   ```
+* **Frontend:**
+    * ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+* **Backend:**
+    * ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
+    * ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+* **Database:**
+    * ![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)
+* **Real-Time Communication:**
+    * ![Socket.io](https://img.shields.io/badge/Socket.io-010101?&style=for-the-badge&logo=socket.io&logoColor=white)
 
-2. **Install server dependencies**
-   ```bash
-   cd server
-   npm install
-   ```
+---
 
-3. **Install client dependencies**
-   ```bash
-   cd ../client
-   npm install
-   ```
+## 🚀 Getting Started
 
-4. **Set up environment variables**
-   
-   Create a `.env` file in the `server` directory:
-   ```env
-   DATABASE_URL="your_postgresql_connection_string"
-   JWT_SECRET_KEY="your_jwt_secret"
-   SECRET="your_session_secret"
-   CLIENT_URL="http://localhost:5173"
-   ```
+To get a local copy up and running, follow these simple steps.
 
-5. **Set up the database**
-   ```bash
-   cd server
-   npx prisma migrate dev
-   npx prisma generate
-   ```
+### Prerequisites
 
-## 🚀 Running the Application
+Make sure you have the following installed on your machine:
+* Node.js (v16 or later)
+* npm (or yarn/pnpm)
+* A database supported by Prisma (e.g., PostgreSQL, MySQL, SQLite)
 
-1. **Start the server** (from the `server` directory):
-   ```bash
-   npm run dev
-   ```
-   Server will run on `http://localhost:3000`
+### Installation
 
-2. **Start the client** (from the `client` directory):
-   ```bash
-   npm run dev
-   ```
-   Client will run on `http://localhost:5173`
+1.  **Clone the repository:**
+    ```sh
+    git clone [https://github.com/your-username/vi-messenger.git](https://github.com/your-username/vi-messenger.git)
+    cd vi-messenger
+    ```
 
-## 🎮 Demo Accounts
+2.  **Install Backend Dependencies:**
+    Navigate to the server directory and install the required packages.
+    ```sh
+    cd server
+    npm install
+    ```
 
-Try the app instantly with these demo accounts:
+3.  **Set up Environment Variables:**
+    Create a `.env` file in the `server` directory and add the following, replacing the placeholder values:
+    ```env
+    # Example for PostgreSQL
+    DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=public"
 
-**Account 1:**
-- Email: `demo@test.com`
-- Password: `demo123`
+    # Secret for signing JWTs
+    JWT_SECRET="YOUR_SUPER_SECRET_KEY"
 
-**Account 2:**
-- Email: `demo2@test.com`
-- Password: `demo123`
+    # Server Port
+    PORT=5000
+    ```
 
-## 📱 Usage
+4.  **Set up the Database:**
+    Run the Prisma migrations to set up your database schema.
+    ```sh
+    npx prisma migrate dev --name init
+    ```
+    You can also use Prisma Studio to view and manage your data:
+    ```sh
+    npx prisma studio
+    ```
 
-1. **Sign Up**: Create a new account with your email
-2. **Add Contacts**: Search and add other users by email
-3. **Accept Requests**: Manage incoming contact requests
-4. **Start Chatting**: Send real-time messages
-5. **Edit Messages**: Hover over your messages to edit or delete
-6. **Live Updates**: Watch conversations update in real-time across all connected clients
+5.  **Install Frontend Dependencies:**
+    Navigate to the client directory and install packages.
+    ```sh
+    cd ../client
+    npm install
+    ```
 
-## 🏗️ Project Structure
+---
 
-```
-VI-Messenger/
-├── client/                 # React frontend
-│   ├── public/
-│   ├── src/
-│   │   ├── components/     # React components
-│   │   ├── context/        # React context providers
-│   │   ├── helpers/        # Utility functions
-│   │   └── styles/         # CSS modules
-│   └── package.json
-├── server/                 # Express backend
-│   ├── config/             # Configuration files
-│   ├── controllers/        # Route controllers
-│   ├── db/                 # Database utilities
-│   ├── prisma/             # Prisma schema and migrations
-│   ├── routes/             # Express routes
-│   └── app.js              # Main server file
-└── README.md
-```
+## ⚙️ Usage
 
-## 🔧 API Endpoints
+1.  **Start the Backend Server:**
+    From the `server` directory:
+    ```sh
+    npm start
+    ```
+    Your Express API should now be running on `http://localhost:5000` (or the port you specified).
 
-### Authentication
-- `POST /auth/login` - User login
-- `POST /auth/register` - User registration
-- `GET /auth/user` - Get current user
+2.  **Start the Frontend Development Server:**
+    From the `client` directory:
+    ```sh
+    npm start
+    ```
+    The React application will open and run on `http://localhost:3000`.
 
-### Contacts
-- `GET /contacts` - Get user's contacts
-- `POST /contacts` - Add new contact
-- `PUT /contacts/:id` - Update contact status
+3.  **Test the Application:**
+    Open your browser to `http://localhost:3000`. You can create your own account or use the two demo accounts provided on the login screen to explore the chat features.
 
-### Messages
-- `GET /contacts/:id/messages` - Get conversation history
-- `POST /contacts/messages` - Send new message
-- `PUT /contacts/messages` - Edit message
-- `DELETE /contacts/messages/:id` - Delete message
+---
 
-## 🔌 WebSocket Events
+## 📝 License
 
-### Client → Server
-- `join_room` - Join a conversation room
-- `send-message` - Send a new message
-- `edit-message` - Edit an existing message
-- `delete-message` - Delete a message
+Distributed under the MIT License. See `LICENSE` for more information.
 
-### Server → Client
-- `received-message` - New message received
-- `received-edit` - Message edit received
-- `received-delete` - Message deletion received
+---
 
-## 🤝 Contributing
+## 📧 Contact
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+Your Name - [your.email@example.com](mailto:your.email@example.com)
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- Socket.IO for real-time communication
-- Prisma for excellent database management
-- React team for the amazing frontend library
-
-## 📞 Contact
-
-Stefan Vitanov - [GitHub](https://github.com/hobbbbies)
-
-Project Link: [https://github.com/hobbbbies/VI-Messenger](https://github.com/hobbbbies/VI-Messenger)
+Project Link: [https://github.com/your-username/vi-messenger](https://github.com/your-username/vi-messenger)
