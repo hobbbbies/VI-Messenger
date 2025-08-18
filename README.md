@@ -2,7 +2,7 @@
 
 VI-Messenger is a real-time, full-stack chat application designed for fast and interactive messaging. It leverages WebSockets to provide a seamless live chat experience, allowing users to communicate instantly without needing to refresh the page.
 
-![Live Demo GIF](https://your-gif-url-here.com/demo.gif) ## 📜 Table of Contents
+![Live Demo GIF](./readme_assets/VI-GIf.gif) ## 📜 Table of Contents
 
 - [About The Project](#about-the-project)
 - [✨ Key Features](#-key-features)
@@ -65,7 +65,7 @@ Make sure you have the following installed on your machine:
 
 1.  **Clone the repository:**
     ```sh
-    git clone [https://github.com/your-username/vi-messenger.git](https://github.com/your-username/vi-messenger.git)
+    git clone https://github.com/your-username/vi-messenger.git
     cd vi-messenger
     ```
 
