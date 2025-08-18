@@ -11,7 +11,11 @@ const cors = require('cors');
 require('dotenv').config();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors({
+  origin: process.env.CLIENT_URL || 'http://localhost:5173',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
 app.use("/api/contacts", contactRouter); 
 app.use('/api/auth', authRouter);
 
@@ -24,11 +28,15 @@ const userSocketMap = new Map(); // Might want to verify passed userId's with JW
 
 const io = new Server(server, {
   cors: {
-    origin: process.env.CLIENT_URL || 'http://localhost:5173'
-  }
+    origin: process.env.CLIENT_URL || 'http://localhost:5173',
+    methods: ["GET", "POST"],
+    credentials: true
+  },
+  allowEIO3: true,
+  transports: ['websocket', 'polling']
 });
 
-const createRoom = (userId) => {
+const createRoom = (userId, socket) => {
   const room = userSocketMap.get(userId);
   console.log("All connections: ", userSocketMap);
   if (!room) {
@@ -43,17 +51,17 @@ io.on('connection', (socket) => {
   console.log('A user connected on userId: ', socket.handshake.auth.userId); 
   socket.on('send-message', (message, userId) => {
     console.log("User sent a message: ", message);
-    const room = createRoom(userId);
+    const room = createRoom(userId, socket);
     if (!room) return;
     socket.to(room).emit('received-message', message);
   })
   socket.on("edit-message", (message, userId, editId) => { 
-    const room = createRoom(userId);
+    const room = createRoom(userId, socket);
     if (!room) return;
     socket.to(room).emit('received-edit', message, editId);
   });
   socket.on("delete-message", (message, userId) => {
-    const room = createRoom(userId);
+    const room = createRoom(userId, socket);
     if(!room) return;
     socket.to(room).emit('received-delete', message);
   });
