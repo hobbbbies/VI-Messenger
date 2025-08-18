@@ -1,20 +1,20 @@
-# VI-Messenger 💬
+# VI-Messenger
 
 VI-Messenger is a real-time, full-stack chat application designed for fast and interactive messaging. It leverages WebSockets to provide a seamless live chat experience, allowing users to communicate instantly without needing to refresh the page.
 
-### Find the live deployment here: [vi-messenger-production.up.railway.app](https://vi-messenger-production.up.railway.app)
+### Find the live deployment here: <a href="https://vi-messenger-production.up.railway.app" target="_blank">vi-messenger-production.up.railway.app</a>
 
-![Live Demo GIF](./readme_assets/VI-GIf.gif) ## 📜 Table of Contents
+![Live Demo GIF](./readme_assets/VI-GIf.gif) ## Table of Contents
 
 - [About The Project](#about-the-project)
-- [✨ Key Features](#-key-features)
-- [🛠️ Built With](#️-built-with)
-- [🚀 Getting Started](#-getting-started)
+- [Key Features](#key-features)
+- [Built With](#built-with)
+- [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
-- [⚙️ Usage](#️-usage)
-- [📝 License](#-license)
-- [📧 Contact](#-contact)
+- [Usage](#usage)
+- [License](#license)
+- [Contact](#contact)
 
 ---
 
@@ -24,7 +24,7 @@ VI-Messenger provides a complete chat solution, from user authentication to real
 
 ---
 
-## ✨ Key Features
+## Key Features
 
 * **User Authentication:** Secure sign-up and login for users with their email.
 * **Contact Management:** Add other users as contacts via email and manage incoming requests by accepting or denying them.
@@ -36,7 +36,7 @@ VI-Messenger provides a complete chat solution, from user authentication to real
 
 ---
 
-## 🛠️ Built With
+## Built With
 
 This project was built using the following technologies:
 
@@ -52,7 +52,7 @@ This project was built using the following technologies:
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 To get a local copy up and running, follow these simple steps.
 
@@ -117,7 +117,7 @@ Make sure you have the following installed on your machine:
 
 ---
 
-## ⚙️ Usage
+## Usage
 
 1.  **Start the Backend Server:**
     From the `server` directory:
