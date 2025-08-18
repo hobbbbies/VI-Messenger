@@ -4,7 +4,8 @@ VI-Messenger is a real-time, full-stack chat application designed for fast and i
 
 ### Find the live deployment here: <a href="https://vi-messenger-production.up.railway.app" target="_blank">vi-messenger-production.up.railway.app</a>
 
-![Live Demo GIF](./readme_assets/VI-GIf.gif) ## Table of Contents
+![Live Demo GIF](./readme_assets/VI-GIf.gif) 
+## Table of Contents
 
 - [About The Project](#about-the-project)
 - [Key Features](#key-features)
