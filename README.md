@@ -2,6 +2,8 @@
 
 VI-Messenger is a real-time, full-stack chat application designed for fast and interactive messaging. It leverages WebSockets to provide a seamless live chat experience, allowing users to communicate instantly without needing to refresh the page.
 
+### Find the live deployment here: [vi-messenger-production.up.railway.app](https://vi-messenger-production.up.railway.app)
+
 ![Live Demo GIF](./readme_assets/VI-GIf.gif) ## 📜 Table of Contents
 
 - [About The Project](#about-the-project)
