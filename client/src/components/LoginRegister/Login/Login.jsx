@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { sendRequestNoAuth } from '../../../helpers/fetchData';
 import styles from '../LoginRegister.module.css'
 import DemoLogin from '../DemoLogin/DemoLogin';
+import GitHubButton from '../../GitHubButton/GitHubButton';
 
 export default function Login() {
     const [formData, setFormData] = useState({ email: '', password: '' });
@@ -37,6 +38,7 @@ export default function Login() {
 
     return (
         <div className={styles.loginContainer}>
+            <GitHubButton />
             <form onSubmit={handleSubmit} className={styles.form}>
                 {error && <div style={{color: 'red'}}>Couldn't find that user: {error}</div>}
             

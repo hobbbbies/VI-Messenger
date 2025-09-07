@@ -6,6 +6,7 @@ import Sidebar from "../Sidebar/Sidebar";
 import socketConstructor from '../../socket';
 import useSocketSetup from '../../useSocketSetup';
 import { SocketContext } from '../../context/socketContext';
+import GitHubButton from '../GitHubButton/GitHubButton';
 
 export default function Header() {
     const [user, setUser] = useState(null)
@@ -35,6 +36,7 @@ export default function Header() {
 
     return (
         <div className={styles.mainContainer}>
+            <GitHubButton />
             <Sidebar setCurrentContact={setCurrentContact}/>
             <div className={styles.chatSection}>
                 <header className={styles.header}>
